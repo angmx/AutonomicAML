@@ -1,0 +1,4 @@
+Last date of Analysis:
+2021-06-24T12:58:32
+SPARQL EndPoint:
+http://liim.izt.uam.mx:8080/fuseki/dsAMIF-AML_SuspiciousDetection_v2_3/

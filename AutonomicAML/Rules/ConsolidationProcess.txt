@@ -1,0 +1,17 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+@prefix cer: <http://www.semanticweb.org/edma/liim/2017/CERPRO-OpenGALEN8#>
+@prefix opg: <http://www.opengalen.org/owl/opengalen.owl#>
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>
+@prefix swrlb: <http://www.w3.org/2003/11/swrlb#>
+@prefix swrl: <http://www.w3.org/2003/11/swrl#>
+@prefix swrla: <http://swrl.stanford.edu/ontologies/3.3/swrla.owl#>
+@prefix ClientsAndAccounts: <https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/ClientsAndAccounts/>
+@prefix Documents: <https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Documents/>
+@prefix RegistrationAuthorities: <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/RegistrationAuthorities/>
+@prefix CountryRepresentation: <https://www.omg.org/spec/LCC/Countries/CountryRepresentation/>
+@prefix AMIF: <http://www.semanticweb.org/ontologies/2020/AMIF-Banking#>
+@prefix CurrencyAmount: <https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/>
+@prefix Relations: <https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/>
+
+[BR-32_2a: ]

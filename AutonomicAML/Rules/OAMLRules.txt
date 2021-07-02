@@ -1,0 +1,26 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+@prefix cer: <http://www.semanticweb.org/edma/liim/2017/CERPRO-OpenGALEN8#>
+@prefix opg: <http://www.opengalen.org/owl/opengalen.owl#>
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>
+@prefix swrlb: <http://www.w3.org/2003/11/swrlb#>
+@prefix swrl: <http://www.w3.org/2003/11/swrl#>
+@prefix swrla: <http://swrl.stanford.edu/ontologies/3.3/swrla.owl#>
+@prefix ClientsAndAccounts: <https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/ClientsAndAccounts/>
+@prefix Documents: <https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Documents/>
+@prefix RegistrationAuthorities: <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/RegistrationAuthorities/>
+@prefix CountryRepresentation: <https://www.omg.org/spec/LCC/Countries/CountryRepresentation/>
+@prefix AMIF: <http://www.semanticweb.org/ontologies/2020/AMIF-Banking#>
+@prefix CurrencyAmount: <https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/>
+@prefix Relations: <https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/>
+
+
+[BR-21_1a: (?acnt rdf:type ClientsAndAccounts:Account) (?acnt Documents:hasRecord ?acnt_rgs) (?acnt_rgs AMIF:hasCutOffPeriodSum ?coff_perd_s) (?coff_perd_s AMIF:hasElectronicCreditSum ?el_crdt_trns_sum) greaterThan(?el_crdt_trns_sum, 15000) -> (?acnt AMIF:isAMLSuspicious 'true'^^http://www.w3.org/2001/XMLSchema#boolean) (?acnt AMIF:compliesAMLBR AMIF:AMIF-BR-21_1a) (?acnt AMIF:hasBanking AMIF:AMIF-Abnormal-Banking)]
+
+[BR-21_1b: (?acnt rdf:type ClientsAndAccounts:Account) (?acnt Documents:hasRecord ?acnt_rgs) (?acnt_rgs AMIF:hasCutOffPeriodSum ?coff_perd_s) (?coff_perd_s AMIF:hasElectronicDebitSum ?el_dbt_trns_sum) greaterThan(?el_dbt_trns_sum, 15000)  -> (?acnt AMIF:isAMLSuspicious 'true'^^http://www.w3.org/2001/XMLSchema#boolean) (?acnt AMIF:compliesAMLBR AMIF:AMIF-BR-21_1b) (?acnt AMIF:hasBanking AMIF:AMIF-Abnormal-Banking)]
+
+[BR-32_1: (?acnt rdf:type ClientsAndAccounts:Account) (?acnt Documents:hasRecord ?acnt_rgs) (?acnt_rgs AMIF:hasCutOffPeriodSum ?coff_perd_s) (?coff_perd_s AMIF:hasElectronicCreditSum ?el_crdt_trns_sum) (?coff_perd_s AMIF:hasElectronicDebitSum ?el_dbt_trns_sum) greaterThan(?el_crdt_trns_sum, 15000) greaterThan(?el_dbt_trns_sum, 15000) ->  (?acnt AMIF:isAMLSuspicious 'true'^^http://www.w3.org/2001/XMLSchema#boolean) (?acnt AMIF:compliesAMLBR AMIF:AMIF-BR-32_1) (?acnt AMIF:hasBanking AMIF:AMIF-Abnormal-Banking)]
+
+[BR-32_2b: (?acnt rdf:type ClientsAndAccounts:Account) (?acnt Documents:hasRecord ?trans_recd) (?trans_recd RegistrationAuthorities:hasRegistryEntry ?ind_tran) (?ind_tran CountryRepresentation:isClassifiedBy ?trans_cat) (?trans_cat rdf:type AMIF:Debit) (?ind_tran CurrencyAmount:hasMonetaryAmount ?mont_amnt) (?mont_amnt CurrencyAmount:hasAmount ?amount) greaterThan(?amount, 15000) (?ind_tran AMIF:hasTransactionDateTime ?trans_date) (?acnt AMIF:hasConsolidationProcess ?cons_process) (?cons_process AMIF:hasDateOfDetection ?consol_process_date) greaterThan(?trans_date, ?consol_process_date) (?cons_process AMIF:hasCreditSum ?consol_process_amount) greaterThan(?consol_process_amount, 15000) ->  (?acnt AMIF:isAMLSuspicious 'true'^^http://www.w3.org/2001/XMLSchema#boolean) (?acnt AMIF:compliesAMLBR AMIF:AMIF-BR-32_2b) (?acnt AMIF:hasBanking AMIF:AMIF-Abnormal-Banking)]
+
+[BR-41_1: (?acnt rdf:type ClientsAndAccounts:Account) (?acnt Documents:hasRecord ?acnt_rgs) (?acnt_rgs AMIF:hasCutOffPeriodSum ?coff_perd_s) (?coff_perd_s AMIF:hasChequeCreditSum ?cheque_crdt_sum) greaterThan(?cheque_crdt_sum, 15000) -> (?acnt AMIF:isAMLSuspicious 'true'^^http://www.w3.org/2001/XMLSchema#boolean) (?acnt AMIF:compliesAMLBR AMIF:AMIF-BR-41_1) (?acnt AMIF:hasBanking AMIF:AMIF-Abnormal-Banking)]

@@ -1,0 +1,42 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX AMIF: <http://www.semanticweb.org/ontologies/2020/AMIF-Banking#>
+PREFIX ClientsAndAccounts: <https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/ClientsAndAccounts/>
+PREFIX Documents: <https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Documents/>
+PREFIX RegistrationAuthorities: <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/RegistrationAuthorities/>
+PREFIX CountryRepresentation: <https://www.omg.org/spec/LCC/Countries/CountryRepresentation/>
+PREFIX CurrencyAmount: <https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/>
+PREFIX Relations: <https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/>
+
+SELECT ?Account ?Credits_sum
+
+WHERE{
+  {
+  SELECT ?Account (SUM(?amount_money) AS ?Credits_sum)
+  WHERE{
+    ?Account rdf:type ClientsAndAccounts:Account.
+    ?Account Relations:isHeldBy ?accnt_hldr.
+    ?accnt_hldr AMIF:hasNameOfAccountHolder ?name_accnt_hldr.
+
+    ?Account Documents:hasRecord ?trn_rcd.
+    ?trn_rcd RegistrationAuthorities:hasRegistryEntry ?ind_tran.
+    ?ind_tran CountryRepresentation:isClassifiedBy ?trans_category.
+    ?trans_category rdf:type AMIF:Credit.
+    ?ind_tran ClientsAndAccounts:appliesToAccount ?accnt_apl.
+
+    ?ind_tran AMIF:hasTransactionDateTime ?trans_date.
+
+    ?ind_tran CurrencyAmount:hasMonetaryAmount ?mont_amount.
+    ?mont_amount CurrencyAmount:hasAmount ?amount_money.
+
+    ?accnt_apl Relations:isHeldBy ?accnt_hldr_apl.
+    ?accnt_hldr_apl AMIF:hasNameOfAccountHolder ?name_accnt_hldr_apl.
+
+    FILTER(?name_accnt_hldr = ?name_accnt_hldr_apl)
+    FILTER(?trans_date >= "%s"^^xsd:dateTime)
+  }
+  GROUP BY ?Account
+  }
+  FILTER(?Credits_sum >= 15000)
+}

@@ -1,0 +1,31 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX AMIF: <http://www.semanticweb.org/ontologies/2020/AMIF-Banking#>
+PREFIX ClientsAndAccounts: <https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/ClientsAndAccounts/>
+PREFIX Documents: <https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Documents/>
+PREFIX RegistrationAuthorities: <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/RegistrationAuthorities/>
+PREFIX CountryRepresentation: <https://www.omg.org/spec/LCC/Countries/CountryRepresentation/>
+PREFIX CurrencyAmount: <https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/>
+
+SELECT ?account
+WHERE{
+	{
+		SELECT ?account 
+		WHERE {
+			?account rdf:type ClientsAndAccounts:Account.
+		}
+	}
+	MINUS
+	{
+		SELECT DISTINCT ?account
+		WHERE {
+		    ?account rdf:type ClientsAndAccounts:Account.
+		    ?account Documents:hasRecord ?trans_rec.
+		    ?trans_rec RegistrationAuthorities:hasRegistryEntry ?ind_rg.
+		    ?ind_rg AMIF:hasTransactionDateTime ?trans_date.
+		    FILTER(?trans_date >= "%s"^^xsd:dateTime).
+		}
+	}
+}

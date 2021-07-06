@@ -1,0 +1,401 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX AMIF: <http://www.semanticweb.org/ontologies/2020/AMIF-Banking#>
+PREFIX ClientsAndAccounts: <https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/ClientsAndAccounts/>
+PREFIX Documents: <https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Documents/>
+PREFIX RegistrationAuthorities: <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/RegistrationAuthorities/>
+PREFIX CountryRepresentation: <https://www.omg.org/spec/LCC/Countries/CountryRepresentation/>
+PREFIX CurrencyAmount: <https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/>
+PREFIX Relations: <https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/>
+PREFIX ProductsAndServices: <https://spec.edmcouncil.org/fibo/ontology/FND/ProductsAndServices/ProductsAndServices/>
+PREFIX Facilities: <https://spec.edmcouncil.org/fibo/ontology/FND/Places/Facilities/>
+PREFIX Locations: <https://spec.edmcouncil.org/fibo/ontology/FND/Places/Locations/>
+
+INSERT DATA{
+	AMIF:AMIF-CQ8_1-AccountHolder-Client_18 rdf:type ClientsAndAccounts:AccountHolder.
+	AMIF:AMIF-CQ8_1-AccountHolder-Client_18 AMIF:hasNameOfAccountHolder "Client 18 CQ8.1"^^xsd:string.
+
+    # various account of same customer
+    AMIF:AMIF-CQ8_1-Account_01-Client_18 rdf:type ClientsAndAccounts:Account.
+  	AMIF:AMIF-CQ8_1-Account_02-Client_18 rdf:type ClientsAndAccounts:Account.
+  	AMIF:AMIF-CQ8_1-Account_03-Client_18 rdf:type ClientsAndAccounts:Account.
+    AMIF:AMIF-CQ8_1-Account_04-Client_18 rdf:type ClientsAndAccounts:Account.
+    AMIF:AMIF-CQ8_1-Account_05-Client_18 rdf:type ClientsAndAccounts:Account.
+
+  	# definition of banks
+    AMIF:AMIF-AccountProvider-Bank_A rdf:type ClientsAndAccounts:AccountProvider.
+    AMIF:AMIF-AccountProvider-Bank_B rdf:type ClientsAndAccounts:AccountProvider.
+
+    # relation between account to banks
+    AMIF:AMIF-CQ8_1-Account_01-Client_18 Relations:isProvidedBy AMIF:AMIF-AccountProvider-Bank_A.
+    AMIF:AMIF-CQ8_1-Account_02-Client_18 Relations:isProvidedBy AMIF:AMIF-AccountProvider-Bank_B.
+    AMIF:AMIF-CQ8_1-Account_03-Client_18 Relations:isProvidedBy AMIF:AMIF-AccountProvider-Bank_B.
+    AMIF:AMIF-CQ8_1-Account_04-Client_18 Relations:isProvidedBy AMIF:AMIF-AccountProvider-Bank_B.
+    AMIF:AMIF-CQ8_1-Account_05-Client_18 Relations:isProvidedBy AMIF:AMIF-AccountProvider-Bank_A.
+
+    # definition of transaction record
+    AMIF:AMIF-CQ8_1-TransactionRecord_01-Client_18 rdf:type ClientsAndAccounts:TransactionRecord.
+    AMIF:AMIF-CQ8_1-TransactionRecord_02-Client_18 rdf:type ClientsAndAccounts:TransactionRecord.
+    AMIF:AMIF-CQ8_1-TransactionRecord_03-Client_18 rdf:type ClientsAndAccounts:TransactionRecord.
+    AMIF:AMIF-CQ8_1-TransactionRecord_04-Client_18 rdf:type ClientsAndAccounts:TransactionRecord.
+
+    # transaction record for each account
+    AMIF:AMIF-CQ8_1-Account_01-Client_18 Documents:hasRecord AMIF:AMIF-CQ8_1-TransactionRecord_01-Client_18.
+    AMIF:AMIF-CQ8_1-Account_02-Client_18 Documents:hasRecord AMIF:AMIF-CQ8_1-TransactionRecord_02-Client_18.
+    AMIF:AMIF-CQ8_1-Account_03-Client_18 Documents:hasRecord AMIF:AMIF-CQ8_1-TransactionRecord_03-Client_18.
+    AMIF:AMIF-CQ8_1-Account_04-Client_18 Documents:hasRecord AMIF:AMIF-CQ8_1-TransactionRecord_04-Client_18.
+
+    # association between client and accounts
+    AMIF:AMIF-CQ8_1-Account_01-Client_18 Relations:isHeldBy AMIF:AMIF-CQ8_1-AccountHolder-Client_18.
+
+    # inverse funtion of the isHeldBy
+    AMIF:AMIF-CQ8_1-AccountHolder-Client_18 Relations:holds AMIF:AMIF-CQ8_1-Account_01-Client_18.
+
+    # definition cutoff period
+    AMIF:AMIF-CQ8_1-CutOffPeriodSum_01-Client_18 rdf:type AMIF:CutOffPeriodSum.
+    AMIF:AMIF-CQ8_1-CutOffPeriodSum_02-Client_18 rdf:type AMIF:CutOffPeriodSum.
+    AMIF:AMIF-CQ8_1-CutOffPeriodSum_03-Client_18 rdf:type AMIF:CutOffPeriodSum.
+    AMIF:AMIF-CQ8_1-CutOffPeriodSum_04-Client_18 rdf:type AMIF:CutOffPeriodSum.
+
+    # cutoff period for transaction record
+    AMIF:AMIF-CQ8_1-TransactionRecord_01-Client_18 AMIF:hasCutOffPeriodSum AMIF:AMIF-CQ8_1-CutOffPeriodSum_01-Client_18.
+    AMIF:AMIF-CQ8_1-TransactionRecord_02-Client_18 AMIF:hasCutOffPeriodSum AMIF:AMIF-CQ8_1-CutOffPeriodSum_02-Client_18.
+    AMIF:AMIF-CQ8_1-TransactionRecord_03-Client_18 AMIF:hasCutOffPeriodSum AMIF:AMIF-CQ8_1-CutOffPeriodSum_03-Client_18.
+    AMIF:AMIF-CQ8_1-TransactionRecord_04-Client_18 AMIF:hasCutOffPeriodSum AMIF:AMIF-CQ8_1-CutOffPeriodSum_04-Client_18.
+
+
+    #----individual transactions for each account
+    #individual transaction for AMIF-CQ8_1-Account_01-Client_18
+
+    #definition of the account type
+    AMIF:AMIF-CQ8_1-Account_01-Client_18 AMIF:isAccountType AMIF:AMIF-PersonalAccount.
+
+    #is inactive or dormant account
+    AMIF:AMIF-CQ8_1-Account_01-Client_18 AMIF:isInactiveAccount "false"^^xsd:boolean.
+    AMIF:AMIF-CQ8_1-Account_01-Client_18 AMIF:isDormantAccount "false"^^xsd:boolean.
+
+    #definition of the individual transactions
+    AMIF:AMIF-CQ8_1-IndTra_01-TR01-Cdt-Client_18 rdf:type ClientsAndAccounts:IndividualTransaction.
+    AMIF:AMIF-CQ8_1-IndTra_02-TR01-Cdt-Client_18 rdf:type ClientsAndAccounts:IndividualTransaction.
+    AMIF:AMIF-CQ8_1-IndTra_03-TR01-Cdt-Client_18 rdf:type ClientsAndAccounts:IndividualTransaction.
+    AMIF:AMIF-CQ8_1-IndTra_04-TR01-Cdt-Client_18 rdf:type ClientsAndAccounts:IndividualTransaction.
+    AMIF:AMIF-CQ8_1-IndTra_05-TR01-Cdt-Client_18 rdf:type ClientsAndAccounts:IndividualTransaction.
+    AMIF:AMIF-CQ8_1-IndTra_06-TR01-Cdt-Client_18 rdf:type ClientsAndAccounts:IndividualTransaction.
+    AMIF:AMIF-CQ8_1-IndTra_07-TR01-Cdt-Client_18 rdf:type ClientsAndAccounts:IndividualTransaction.
+    AMIF:AMIF-CQ8_1-IndTra_08-TR01-Cdt-Client_18 rdf:type ClientsAndAccounts:IndividualTransaction.
+    AMIF:AMIF-CQ8_1-IndTra_09-TR01-Cdt-Client_18 rdf:type ClientsAndAccounts:IndividualTransaction.
+    AMIF:AMIF-CQ8_1-IndTra_10-TR01-Cdt-Client_18 rdf:type ClientsAndAccounts:IndividualTransaction.
+    AMIF:AMIF-CQ8_1-IndTra_11-TR01-Cdt-Client_18 rdf:type ClientsAndAccounts:IndividualTransaction.
+    AMIF:AMIF-CQ8_1-IndTra_12-TR01-Cdt-Client_18 rdf:type ClientsAndAccounts:IndividualTransaction.
+    AMIF:AMIF-CQ8_1-IndTra_13-TR01-Cdt-Client_18 rdf:type ClientsAndAccounts:IndividualTransaction.
+    AMIF:AMIF-CQ8_1-IndTra_14-TR01-Cdt-Client_18 rdf:type ClientsAndAccounts:IndividualTransaction.
+    AMIF:AMIF-CQ8_1-IndTra_15-TR01-Cdt-Client_18 rdf:type ClientsAndAccounts:IndividualTransaction.
+    AMIF:AMIF-CQ8_1-IndTra_16-TR01-Cdt-Client_18 rdf:type ClientsAndAccounts:IndividualTransaction.
+    AMIF:AMIF-CQ8_1-IndTra_17-TR01-Cdt-Client_18 rdf:type ClientsAndAccounts:IndividualTransaction.
+    AMIF:AMIF-CQ8_1-IndTra_18-TR01-Cdt-Client_18 rdf:type ClientsAndAccounts:IndividualTransaction.
+    AMIF:AMIF-CQ8_1-IndTra_19-TR01-Dbt-Client_18 rdf:type ClientsAndAccounts:IndividualTransaction.
+    AMIF:AMIF-CQ8_1-IndTra_20-TR01-Dbt-Client_18 rdf:type ClientsAndAccounts:IndividualTransaction.
+    AMIF:AMIF-CQ8_1-IndTra_21-TR01-Dbt-Client_18 rdf:type ClientsAndAccounts:IndividualTransaction.
+
+    #association to individual transaction with transaction record
+    AMIF:AMIF-CQ8_1-TransactionRecord_01-Client_18 RegistrationAuthorities:hasRegistryEntry AMIF:AMIF-CQ8_1-IndTra_01-TR01-Cdt-Client_18.
+    AMIF:AMIF-CQ8_1-TransactionRecord_01-Client_18 RegistrationAuthorities:hasRegistryEntry AMIF:AMIF-CQ8_1-IndTra_02-TR01-Cdt-Client_18.
+    AMIF:AMIF-CQ8_1-TransactionRecord_01-Client_18 RegistrationAuthorities:hasRegistryEntry AMIF:AMIF-CQ8_1-IndTra_03-TR01-Cdt-Client_18.
+    AMIF:AMIF-CQ8_1-TransactionRecord_01-Client_18 RegistrationAuthorities:hasRegistryEntry AMIF:AMIF-CQ8_1-IndTra_04-TR01-Cdt-Client_18.
+    AMIF:AMIF-CQ8_1-TransactionRecord_01-Client_18 RegistrationAuthorities:hasRegistryEntry AMIF:AMIF-CQ8_1-IndTra_05-TR01-Cdt-Client_18.
+    AMIF:AMIF-CQ8_1-TransactionRecord_01-Client_18 RegistrationAuthorities:hasRegistryEntry AMIF:AMIF-CQ8_1-IndTra_06-TR01-Cdt-Client_18.
+    AMIF:AMIF-CQ8_1-TransactionRecord_01-Client_18 RegistrationAuthorities:hasRegistryEntry AMIF:AMIF-CQ8_1-IndTra_07-TR01-Cdt-Client_18.
+    AMIF:AMIF-CQ8_1-TransactionRecord_01-Client_18 RegistrationAuthorities:hasRegistryEntry AMIF:AMIF-CQ8_1-IndTra_08-TR01-Cdt-Client_18.
+    AMIF:AMIF-CQ8_1-TransactionRecord_01-Client_18 RegistrationAuthorities:hasRegistryEntry AMIF:AMIF-CQ8_1-IndTra_09-TR01-Cdt-Client_18.
+    AMIF:AMIF-CQ8_1-TransactionRecord_01-Client_18 RegistrationAuthorities:hasRegistryEntry AMIF:AMIF-CQ8_1-IndTra_10-TR01-Cdt-Client_18.
+    AMIF:AMIF-CQ8_1-TransactionRecord_01-Client_18 RegistrationAuthorities:hasRegistryEntry AMIF:AMIF-CQ8_1-IndTra_11-TR01-Cdt-Client_18.
+    AMIF:AMIF-CQ8_1-TransactionRecord_01-Client_18 RegistrationAuthorities:hasRegistryEntry AMIF:AMIF-CQ8_1-IndTra_12-TR01-Cdt-Client_18.
+    AMIF:AMIF-CQ8_1-TransactionRecord_01-Client_18 RegistrationAuthorities:hasRegistryEntry AMIF:AMIF-CQ8_1-IndTra_13-TR01-Cdt-Client_18.
+    AMIF:AMIF-CQ8_1-TransactionRecord_01-Client_18 RegistrationAuthorities:hasRegistryEntry AMIF:AMIF-CQ8_1-IndTra_14-TR01-Cdt-Client_18.
+    AMIF:AMIF-CQ8_1-TransactionRecord_01-Client_18 RegistrationAuthorities:hasRegistryEntry AMIF:AMIF-CQ8_1-IndTra_15-TR01-Cdt-Client_18.
+    AMIF:AMIF-CQ8_1-TransactionRecord_01-Client_18 RegistrationAuthorities:hasRegistryEntry AMIF:AMIF-CQ8_1-IndTra_16-TR01-Cdt-Client_18.
+    AMIF:AMIF-CQ8_1-TransactionRecord_01-Client_18 RegistrationAuthorities:hasRegistryEntry AMIF:AMIF-CQ8_1-IndTra_17-TR01-Cdt-Client_18.
+    AMIF:AMIF-CQ8_1-TransactionRecord_01-Client_18 RegistrationAuthorities:hasRegistryEntry AMIF:AMIF-CQ8_1-IndTra_18-TR01-Cdt-Client_18.
+    AMIF:AMIF-CQ8_1-TransactionRecord_01-Client_18 RegistrationAuthorities:hasRegistryEntry AMIF:AMIF-CQ8_1-IndTra_19-TR01-Dbt-Client_18.
+    AMIF:AMIF-CQ8_1-TransactionRecord_01-Client_18 RegistrationAuthorities:hasRegistryEntry AMIF:AMIF-CQ8_1-IndTra_20-TR01-Dbt-Client_18.
+    AMIF:AMIF-CQ8_1-TransactionRecord_01-Client_18 RegistrationAuthorities:hasRegistryEntry AMIF:AMIF-CQ8_1-IndTra_21-TR01-Dbt-Client_18.
+
+    #definition of monetaryAmount for individual transaction
+    AMIF:AMIF-CQ8_1-MnAmt-IndTra_01-TR01-Client_18 rdf:type CurrencyAmount:MonetaryAmount.
+    AMIF:AMIF-CQ8_1-MnAmt-IndTra_02-TR01-Client_18 rdf:type CurrencyAmount:MonetaryAmount.
+    AMIF:AMIF-CQ8_1-MnAmt-IndTra_03-TR01-Client_18 rdf:type CurrencyAmount:MonetaryAmount.
+    AMIF:AMIF-CQ8_1-MnAmt-IndTra_04-TR01-Client_18 rdf:type CurrencyAmount:MonetaryAmount.
+    AMIF:AMIF-CQ8_1-MnAmt-IndTra_05-TR01-Client_18 rdf:type CurrencyAmount:MonetaryAmount.
+    AMIF:AMIF-CQ8_1-MnAmt-IndTra_06-TR01-Client_18 rdf:type CurrencyAmount:MonetaryAmount.
+    AMIF:AMIF-CQ8_1-MnAmt-IndTra_07-TR01-Client_18 rdf:type CurrencyAmount:MonetaryAmount.
+    AMIF:AMIF-CQ8_1-MnAmt-IndTra_08-TR01-Client_18 rdf:type CurrencyAmount:MonetaryAmount.
+    AMIF:AMIF-CQ8_1-MnAmt-IndTra_09-TR01-Client_18 rdf:type CurrencyAmount:MonetaryAmount.
+    AMIF:AMIF-CQ8_1-MnAmt-IndTra_10-TR01-Client_18 rdf:type CurrencyAmount:MonetaryAmount.
+    AMIF:AMIF-CQ8_1-MnAmt-IndTra_11-TR01-Client_18 rdf:type CurrencyAmount:MonetaryAmount.
+    AMIF:AMIF-CQ8_1-MnAmt-IndTra_12-TR01-Client_18 rdf:type CurrencyAmount:MonetaryAmount.
+    AMIF:AMIF-CQ8_1-MnAmt-IndTra_13-TR01-Client_18 rdf:type CurrencyAmount:MonetaryAmount.
+    AMIF:AMIF-CQ8_1-MnAmt-IndTra_14-TR01-Client_18 rdf:type CurrencyAmount:MonetaryAmount.
+    AMIF:AMIF-CQ8_1-MnAmt-IndTra_15-TR01-Client_18 rdf:type CurrencyAmount:MonetaryAmount.
+    AMIF:AMIF-CQ8_1-MnAmt-IndTra_16-TR01-Client_18 rdf:type CurrencyAmount:MonetaryAmount.
+    AMIF:AMIF-CQ8_1-MnAmt-IndTra_17-TR01-Client_18 rdf:type CurrencyAmount:MonetaryAmount.
+    AMIF:AMIF-CQ8_1-MnAmt-IndTra_18-TR01-Client_18 rdf:type CurrencyAmount:MonetaryAmount.
+    AMIF:AMIF-CQ8_1-MnAmt-IndTra_19-TR01-Client_18 rdf:type CurrencyAmount:MonetaryAmount.
+    AMIF:AMIF-CQ8_1-MnAmt-IndTra_20-TR01-Client_18 rdf:type CurrencyAmount:MonetaryAmount.
+    AMIF:AMIF-CQ8_1-MnAmt-IndTra_21-TR01-Client_18 rdf:type CurrencyAmount:MonetaryAmount.
+
+    #date time of the individual transaction
+    AMIF:AMIF-CQ8_1-IndTra_01-TR01-Cdt-Client_18 AMIF:hasTransactionDateTime "2021-06-09T00:00:00"^^xsd:dateTime.
+    AMIF:AMIF-CQ8_1-IndTra_02-TR01-Cdt-Client_18 AMIF:hasTransactionDateTime "2021-06-12T00:00:00"^^xsd:dateTime.
+    AMIF:AMIF-CQ8_1-IndTra_03-TR01-Cdt-Client_18 AMIF:hasTransactionDateTime "2021-06-11T00:00:00"^^xsd:dateTime.
+    AMIF:AMIF-CQ8_1-IndTra_04-TR01-Cdt-Client_18 AMIF:hasTransactionDateTime "2021-06-09T00:00:00"^^xsd:dateTime.
+    AMIF:AMIF-CQ8_1-IndTra_05-TR01-Cdt-Client_18 AMIF:hasTransactionDateTime "2021-06-12T00:00:00"^^xsd:dateTime.
+    AMIF:AMIF-CQ8_1-IndTra_06-TR01-Cdt-Client_18 AMIF:hasTransactionDateTime "2021-06-11T00:00:00"^^xsd:dateTime.
+    AMIF:AMIF-CQ8_1-IndTra_07-TR01-Cdt-Client_18 AMIF:hasTransactionDateTime "2021-06-09T00:00:00"^^xsd:dateTime.
+    AMIF:AMIF-CQ8_1-IndTra_08-TR01-Cdt-Client_18 AMIF:hasTransactionDateTime "2021-06-12T00:00:00"^^xsd:dateTime.
+    AMIF:AMIF-CQ8_1-IndTra_09-TR01-Cdt-Client_18 AMIF:hasTransactionDateTime "2021-06-11T00:00:00"^^xsd:dateTime.
+    AMIF:AMIF-CQ8_1-IndTra_10-TR01-Cdt-Client_18 AMIF:hasTransactionDateTime "2021-06-09T00:00:00"^^xsd:dateTime.
+    AMIF:AMIF-CQ8_1-IndTra_11-TR01-Cdt-Client_18 AMIF:hasTransactionDateTime "2021-06-12T00:00:00"^^xsd:dateTime.
+    AMIF:AMIF-CQ8_1-IndTra_12-TR01-Cdt-Client_18 AMIF:hasTransactionDateTime "2021-06-11T00:00:00"^^xsd:dateTime.
+    AMIF:AMIF-CQ8_1-IndTra_13-TR01-Cdt-Client_18 AMIF:hasTransactionDateTime "2021-06-09T00:00:00"^^xsd:dateTime.
+    AMIF:AMIF-CQ8_1-IndTra_14-TR01-Cdt-Client_18 AMIF:hasTransactionDateTime "2021-06-12T00:00:00"^^xsd:dateTime.
+    AMIF:AMIF-CQ8_1-IndTra_15-TR01-Cdt-Client_18 AMIF:hasTransactionDateTime "2021-06-11T00:00:00"^^xsd:dateTime.
+    AMIF:AMIF-CQ8_1-IndTra_16-TR01-Cdt-Client_18 AMIF:hasTransactionDateTime "2021-06-09T00:00:00"^^xsd:dateTime.
+    AMIF:AMIF-CQ8_1-IndTra_17-TR01-Cdt-Client_18 AMIF:hasTransactionDateTime "2021-06-12T00:00:00"^^xsd:dateTime.
+    AMIF:AMIF-CQ8_1-IndTra_18-TR01-Cdt-Client_18 AMIF:hasTransactionDateTime "2021-06-11T00:00:00"^^xsd:dateTime.
+    AMIF:AMIF-CQ8_1-IndTra_19-TR01-Dbt-Client_18 AMIF:hasTransactionDateTime "2021-06-13T00:00:00"^^xsd:dateTime.
+    AMIF:AMIF-CQ8_1-IndTra_20-TR01-Dbt-Client_18 AMIF:hasTransactionDateTime "2021-06-12T00:00:00"^^xsd:dateTime.
+    AMIF:AMIF-CQ8_1-IndTra_21-TR01-Dbt-Client_18 AMIF:hasTransactionDateTime "2021-06-14T00:00:00"^^xsd:dateTime.
+
+    #amount of the amount money
+    AMIF:AMIF-CQ8_1-MnAmt-IndTra_01-TR01-Client_18 CurrencyAmount:hasAmount "4500"^^xsd:decimal.
+    AMIF:AMIF-CQ8_1-MnAmt-IndTra_02-TR01-Client_18 CurrencyAmount:hasAmount "5000"^^xsd:decimal.
+    AMIF:AMIF-CQ8_1-MnAmt-IndTra_03-TR01-Client_18 CurrencyAmount:hasAmount "5500"^^xsd:decimal.
+    AMIF:AMIF-CQ8_1-MnAmt-IndTra_04-TR01-Client_18 CurrencyAmount:hasAmount "6500"^^xsd:decimal.
+    AMIF:AMIF-CQ8_1-MnAmt-IndTra_05-TR01-Client_18 CurrencyAmount:hasAmount "5000"^^xsd:decimal.
+    AMIF:AMIF-CQ8_1-MnAmt-IndTra_06-TR01-Client_18 CurrencyAmount:hasAmount "5500"^^xsd:decimal.
+    AMIF:AMIF-CQ8_1-MnAmt-IndTra_07-TR01-Client_18 CurrencyAmount:hasAmount "6500"^^xsd:decimal.
+    AMIF:AMIF-CQ8_1-MnAmt-IndTra_08-TR01-Client_18 CurrencyAmount:hasAmount "9000"^^xsd:decimal.
+    AMIF:AMIF-CQ8_1-MnAmt-IndTra_09-TR01-Client_18 CurrencyAmount:hasAmount "10500"^^xsd:decimal.
+    AMIF:AMIF-CQ8_1-MnAmt-IndTra_10-TR01-Client_18 CurrencyAmount:hasAmount "4500"^^xsd:decimal.
+    AMIF:AMIF-CQ8_1-MnAmt-IndTra_11-TR01-Client_18 CurrencyAmount:hasAmount "5000"^^xsd:decimal.
+    AMIF:AMIF-CQ8_1-MnAmt-IndTra_12-TR01-Client_18 CurrencyAmount:hasAmount "5500"^^xsd:decimal.
+    AMIF:AMIF-CQ8_1-MnAmt-IndTra_13-TR01-Client_18 CurrencyAmount:hasAmount "6500"^^xsd:decimal.
+    AMIF:AMIF-CQ8_1-MnAmt-IndTra_14-TR01-Client_18 CurrencyAmount:hasAmount "5000"^^xsd:decimal.
+    AMIF:AMIF-CQ8_1-MnAmt-IndTra_15-TR01-Client_18 CurrencyAmount:hasAmount "5500"^^xsd:decimal.
+    AMIF:AMIF-CQ8_1-MnAmt-IndTra_16-TR01-Client_18 CurrencyAmount:hasAmount "6500"^^xsd:decimal.
+    AMIF:AMIF-CQ8_1-MnAmt-IndTra_17-TR01-Client_18 CurrencyAmount:hasAmount "9000"^^xsd:decimal.
+    AMIF:AMIF-CQ8_1-MnAmt-IndTra_18-TR01-Client_18 CurrencyAmount:hasAmount "10500"^^xsd:decimal.
+    AMIF:AMIF-CQ8_1-MnAmt-IndTra_19-TR01-Client_18 CurrencyAmount:hasAmount "5000"^^xsd:decimal.
+    AMIF:AMIF-CQ8_1-MnAmt-IndTra_20-TR01-Client_18 CurrencyAmount:hasAmount "7000"^^xsd:decimal.
+    AMIF:AMIF-CQ8_1-MnAmt-IndTra_21-TR01-Client_18 CurrencyAmount:hasAmount "12500"^^xsd:decimal.
+
+    #association of individual transaction with monetary amount
+    AMIF:AMIF-CQ8_1-IndTra_01-TR01-Cdt-Client_18 CurrencyAmount:hasMonetaryAmount AMIF:AMIF-CQ8_1-MnAmt-IndTra_01-TR01-Client_18.
+    AMIF:AMIF-CQ8_1-IndTra_02-TR01-Cdt-Client_18 CurrencyAmount:hasMonetaryAmount AMIF:AMIF-CQ8_1-MnAmt-IndTra_02-TR01-Client_18.
+    AMIF:AMIF-CQ8_1-IndTra_03-TR01-Cdt-Client_18 CurrencyAmount:hasMonetaryAmount AMIF:AMIF-CQ8_1-MnAmt-IndTra_03-TR01-Client_18.
+    AMIF:AMIF-CQ8_1-IndTra_04-TR01-Cdt-Client_18 CurrencyAmount:hasMonetaryAmount AMIF:AMIF-CQ8_1-MnAmt-IndTra_04-TR01-Client_18.
+    AMIF:AMIF-CQ8_1-IndTra_05-TR01-Cdt-Client_18 CurrencyAmount:hasMonetaryAmount AMIF:AMIF-CQ8_1-MnAmt-IndTra_05-TR01-Client_18.
+    AMIF:AMIF-CQ8_1-IndTra_06-TR01-Cdt-Client_18 CurrencyAmount:hasMonetaryAmount AMIF:AMIF-CQ8_1-MnAmt-IndTra_06-TR01-Client_18.
+    AMIF:AMIF-CQ8_1-IndTra_07-TR01-Cdt-Client_18 CurrencyAmount:hasMonetaryAmount AMIF:AMIF-CQ8_1-MnAmt-IndTra_07-TR01-Client_18.
+    AMIF:AMIF-CQ8_1-IndTra_08-TR01-Cdt-Client_18 CurrencyAmount:hasMonetaryAmount AMIF:AMIF-CQ8_1-MnAmt-IndTra_08-TR01-Client_18.
+    AMIF:AMIF-CQ8_1-IndTra_09-TR01-Cdt-Client_18 CurrencyAmount:hasMonetaryAmount AMIF:AMIF-CQ8_1-MnAmt-IndTra_09-TR01-Client_18.
+    AMIF:AMIF-CQ8_1-IndTra_10-TR01-Cdt-Client_18 CurrencyAmount:hasMonetaryAmount AMIF:AMIF-CQ8_1-MnAmt-IndTra_01-TR01-Client_18.
+    AMIF:AMIF-CQ8_1-IndTra_11-TR01-Cdt-Client_18 CurrencyAmount:hasMonetaryAmount AMIF:AMIF-CQ8_1-MnAmt-IndTra_02-TR01-Client_18.
+    AMIF:AMIF-CQ8_1-IndTra_12-TR01-Cdt-Client_18 CurrencyAmount:hasMonetaryAmount AMIF:AMIF-CQ8_1-MnAmt-IndTra_03-TR01-Client_18.
+    AMIF:AMIF-CQ8_1-IndTra_13-TR01-Cdt-Client_18 CurrencyAmount:hasMonetaryAmount AMIF:AMIF-CQ8_1-MnAmt-IndTra_04-TR01-Client_18.
+    AMIF:AMIF-CQ8_1-IndTra_14-TR01-Cdt-Client_18 CurrencyAmount:hasMonetaryAmount AMIF:AMIF-CQ8_1-MnAmt-IndTra_05-TR01-Client_18.
+    AMIF:AMIF-CQ8_1-IndTra_15-TR01-Cdt-Client_18 CurrencyAmount:hasMonetaryAmount AMIF:AMIF-CQ8_1-MnAmt-IndTra_06-TR01-Client_18.
+    AMIF:AMIF-CQ8_1-IndTra_16-TR01-Cdt-Client_18 CurrencyAmount:hasMonetaryAmount AMIF:AMIF-CQ8_1-MnAmt-IndTra_07-TR01-Client_18.
+    AMIF:AMIF-CQ8_1-IndTra_17-TR01-Cdt-Client_18 CurrencyAmount:hasMonetaryAmount AMIF:AMIF-CQ8_1-MnAmt-IndTra_08-TR01-Client_18.
+    AMIF:AMIF-CQ8_1-IndTra_18-TR01-Cdt-Client_18 CurrencyAmount:hasMonetaryAmount AMIF:AMIF-CQ8_1-MnAmt-IndTra_09-TR01-Client_18.
+    AMIF:AMIF-CQ8_1-IndTra_19-TR01-Dbt-Client_18 CurrencyAmount:hasMonetaryAmount AMIF:AMIF-CQ8_1-MnAmt-IndTra_10-TR01-Client_18.
+    AMIF:AMIF-CQ8_1-IndTra_20-TR01-Dbt-Client_18 CurrencyAmount:hasMonetaryAmount AMIF:AMIF-CQ8_1-MnAmt-IndTra_11-TR01-Client_18.
+    AMIF:AMIF-CQ8_1-IndTra_21-TR01-Dbt-Client_18 CurrencyAmount:hasMonetaryAmount AMIF:AMIF-CQ8_1-MnAmt-IndTra_12-TR01-Client_18.
+
+    #definition of type of transaction
+    AMIF:AMIF-CQ8_1-IndTra_01-TR01-Cdt-Client_18 CountryRepresentation:isClassifiedBy AMIF:AMIF-Credit-Transaction.
+    AMIF:AMIF-CQ8_1-IndTra_02-TR01-Cdt-Client_18 CountryRepresentation:isClassifiedBy AMIF:AMIF-Credit-Transaction.
+    AMIF:AMIF-CQ8_1-IndTra_03-TR01-Cdt-Client_18 CountryRepresentation:isClassifiedBy AMIF:AMIF-Credit-Transaction.
+    AMIF:AMIF-CQ8_1-IndTra_04-TR01-Cdt-Client_18 CountryRepresentation:isClassifiedBy AMIF:AMIF-Credit-Transaction.
+    AMIF:AMIF-CQ8_1-IndTra_05-TR01-Cdt-Client_18 CountryRepresentation:isClassifiedBy AMIF:AMIF-Credit-Transaction.
+    AMIF:AMIF-CQ8_1-IndTra_06-TR01-Cdt-Client_18 CountryRepresentation:isClassifiedBy AMIF:AMIF-Credit-Transaction.
+    AMIF:AMIF-CQ8_1-IndTra_07-TR01-Cdt-Client_18 CountryRepresentation:isClassifiedBy AMIF:AMIF-Credit-Transaction.
+    AMIF:AMIF-CQ8_1-IndTra_08-TR01-Cdt-Client_18 CountryRepresentation:isClassifiedBy AMIF:AMIF-Credit-Transaction.
+    AMIF:AMIF-CQ8_1-IndTra_09-TR01-Cdt-Client_18 CountryRepresentation:isClassifiedBy AMIF:AMIF-Credit-Transaction.
+    AMIF:AMIF-CQ8_1-IndTra_10-TR01-Cdt-Client_18 CountryRepresentation:isClassifiedBy AMIF:AMIF-Credit-Transaction.
+    AMIF:AMIF-CQ8_1-IndTra_11-TR01-Cdt-Client_18 CountryRepresentation:isClassifiedBy AMIF:AMIF-Credit-Transaction.
+    AMIF:AMIF-CQ8_1-IndTra_12-TR01-Cdt-Client_18 CountryRepresentation:isClassifiedBy AMIF:AMIF-Credit-Transaction.
+    AMIF:AMIF-CQ8_1-IndTra_13-TR01-Cdt-Client_18 CountryRepresentation:isClassifiedBy AMIF:AMIF-Credit-Transaction.
+    AMIF:AMIF-CQ8_1-IndTra_14-TR01-Cdt-Client_18 CountryRepresentation:isClassifiedBy AMIF:AMIF-Credit-Transaction.
+    AMIF:AMIF-CQ8_1-IndTra_15-TR01-Cdt-Client_18 CountryRepresentation:isClassifiedBy AMIF:AMIF-Credit-Transaction.
+    AMIF:AMIF-CQ8_1-IndTra_16-TR01-Cdt-Client_18 CountryRepresentation:isClassifiedBy AMIF:AMIF-Credit-Transaction.
+    AMIF:AMIF-CQ8_1-IndTra_17-TR01-Cdt-Client_18 CountryRepresentation:isClassifiedBy AMIF:AMIF-Credit-Transaction.
+    AMIF:AMIF-CQ8_1-IndTra_18-TR01-Cdt-Client_18 CountryRepresentation:isClassifiedBy AMIF:AMIF-Credit-Transaction.
+    AMIF:AMIF-CQ8_1-IndTra_19-TR01-Dbt-Client_18 CountryRepresentation:isClassifiedBy AMIF:AMIF-Debit-Transaction.
+    AMIF:AMIF-CQ8_1-IndTra_20-TR01-Dbt-Client_18 CountryRepresentation:isClassifiedBy AMIF:AMIF-Debit-Transaction.
+    AMIF:AMIF-CQ8_1-IndTra_21-TR01-Dbt-Client_18 CountryRepresentation:isClassifiedBy AMIF:AMIF-Debit-Transaction.
+
+    #definition of transaction type
+    AMIF:AMIF-CQ8_1-IndTra_01-TR01-Cdt-Client_18 AMIF:isTransactionType AMIF:AMIF-PM-Cash.
+    AMIF:AMIF-CQ8_1-IndTra_02-TR01-Cdt-Client_18 AMIF:isTransactionType AMIF:AMIF-PM-Electronic.
+    AMIF:AMIF-CQ8_1-IndTra_03-TR01-Cdt-Client_18 AMIF:isTransactionType AMIF:AMIF-PM-Cash.
+    AMIF:AMIF-CQ8_1-IndTra_04-TR01-Cdt-Client_18 AMIF:isTransactionType AMIF:AMIF-PM-Cash.
+    AMIF:AMIF-CQ8_1-IndTra_05-TR01-Cdt-Client_18 AMIF:isTransactionType AMIF:AMIF-PM-Electronic.
+    AMIF:AMIF-CQ8_1-IndTra_06-TR01-Cdt-Client_18 AMIF:isTransactionType AMIF:AMIF-PM-Cash.
+    AMIF:AMIF-CQ8_1-IndTra_07-TR01-Cdt-Client_18 AMIF:isTransactionType AMIF:AMIF-PM-Cash.
+    AMIF:AMIF-CQ8_1-IndTra_08-TR01-Cdt-Client_18 AMIF:isTransactionType AMIF:AMIF-PM-Electronic.
+    AMIF:AMIF-CQ8_1-IndTra_09-TR01-Cdt-Client_18 AMIF:isTransactionType AMIF:AMIF-PM-Cash.
+    AMIF:AMIF-CQ8_1-IndTra_10-TR01-Cdt-Client_18 AMIF:isTransactionType AMIF:AMIF-PM-Cash.
+    AMIF:AMIF-CQ8_1-IndTra_11-TR01-Cdt-Client_18 AMIF:isTransactionType AMIF:AMIF-PM-Electronic.
+    AMIF:AMIF-CQ8_1-IndTra_12-TR01-Cdt-Client_18 AMIF:isTransactionType AMIF:AMIF-PM-Cash.
+    AMIF:AMIF-CQ8_1-IndTra_13-TR01-Cdt-Client_18 AMIF:isTransactionType AMIF:AMIF-PM-Cash.
+    AMIF:AMIF-CQ8_1-IndTra_14-TR01-Cdt-Client_18 AMIF:isTransactionType AMIF:AMIF-PM-Electronic.
+    AMIF:AMIF-CQ8_1-IndTra_15-TR01-Cdt-Client_18 AMIF:isTransactionType AMIF:AMIF-PM-Cash.
+    AMIF:AMIF-CQ8_1-IndTra_16-TR01-Cdt-Client_18 AMIF:isTransactionType AMIF:AMIF-PM-Cash.
+    AMIF:AMIF-CQ8_1-IndTra_17-TR01-Cdt-Client_18 AMIF:isTransactionType AMIF:AMIF-PM-Electronic.
+    AMIF:AMIF-CQ8_1-IndTra_18-TR01-Cdt-Client_18 AMIF:isTransactionType AMIF:AMIF-PM-Cash.
+    AMIF:AMIF-CQ8_1-IndTra_19-TR01-Dbt-Client_18 AMIF:isTransactionType AMIF:AMIF-PM-Electronic.
+    AMIF:AMIF-CQ8_1-IndTra_20-TR01-Dbt-Client_18 AMIF:isTransactionType AMIF:AMIF-PM-Electronic.
+    AMIF:AMIF-CQ8_1-IndTra_21-TR01-Dbt-Client_18 AMIF:isTransactionType AMIF:AMIF-PM-Electronic.
+
+    #definition of type of the transaction mean for individual transaction
+    AMIF:AMIF-CQ8_1-IndTra_01-TR01-Cdt-Client_18 AMIF:hasTransactionMeans AMIF:AMIF-TransactionMeans-Teller.
+    AMIF:AMIF-CQ8_1-IndTra_02-TR01-Cdt-Client_18 AMIF:hasTransactionMeans AMIF:AMIF-TransactionMeans-Online.
+    AMIF:AMIF-CQ8_1-IndTra_03-TR01-Cdt-Client_18 AMIF:hasTransactionMeans AMIF:AMIF-TransactionMeans-Teller.
+    AMIF:AMIF-CQ8_1-IndTra_04-TR01-Cdt-Client_18 AMIF:hasTransactionMeans AMIF:AMIF-TransactionMeans-Teller.
+    AMIF:AMIF-CQ8_1-IndTra_05-TR01-Cdt-Client_18 AMIF:hasTransactionMeans AMIF:AMIF-TransactionMeans-Online.
+    AMIF:AMIF-CQ8_1-IndTra_06-TR01-Cdt-Client_18 AMIF:hasTransactionMeans AMIF:AMIF-TransactionMeans-Online.
+    AMIF:AMIF-CQ8_1-IndTra_07-TR01-Cdt-Client_18 AMIF:hasTransactionMeans AMIF:AMIF-TransactionMeans-Online.
+    AMIF:AMIF-CQ8_1-IndTra_08-TR01-Cdt-Client_18 AMIF:hasTransactionMeans AMIF:AMIF-TransactionMeans-Teller.
+    AMIF:AMIF-CQ8_1-IndTra_09-TR01-Cdt-Client_18 AMIF:hasTransactionMeans AMIF:AMIF-TransactionMeans-Teller.
+    AMIF:AMIF-CQ8_1-IndTra_10-TR01-Cdt-Client_18 AMIF:hasTransactionMeans AMIF:AMIF-TransactionMeans-Teller.
+    AMIF:AMIF-CQ8_1-IndTra_11-TR01-Cdt-Client_18 AMIF:hasTransactionMeans AMIF:AMIF-TransactionMeans-Online.
+    AMIF:AMIF-CQ8_1-IndTra_12-TR01-Cdt-Client_18 AMIF:hasTransactionMeans AMIF:AMIF-TransactionMeans-Teller.
+    AMIF:AMIF-CQ8_1-IndTra_13-TR01-Cdt-Client_18 AMIF:hasTransactionMeans AMIF:AMIF-TransactionMeans-Teller.
+    AMIF:AMIF-CQ8_1-IndTra_14-TR01-Cdt-Client_18 AMIF:hasTransactionMeans AMIF:AMIF-TransactionMeans-Online.
+    AMIF:AMIF-CQ8_1-IndTra_15-TR01-Cdt-Client_18 AMIF:hasTransactionMeans AMIF:AMIF-TransactionMeans-Online.
+    AMIF:AMIF-CQ8_1-IndTra_16-TR01-Cdt-Client_18 AMIF:hasTransactionMeans AMIF:AMIF-TransactionMeans-Online.
+    AMIF:AMIF-CQ8_1-IndTra_17-TR01-Cdt-Client_18 AMIF:hasTransactionMeans AMIF:AMIF-TransactionMeans-Teller.
+    AMIF:AMIF-CQ8_1-IndTra_18-TR01-Cdt-Client_18 AMIF:hasTransactionMeans AMIF:AMIF-TransactionMeans-Teller.
+    AMIF:AMIF-CQ8_1-IndTra_19-TR01-Dbt-Client_18 AMIF:hasTransactionMeans AMIF:AMIF-TransactionMeans-Online.
+    AMIF:AMIF-CQ8_1-IndTra_20-TR01-Dbt-Client_18 AMIF:hasTransactionMeans AMIF:AMIF-TransactionMeans-Online.
+    AMIF:AMIF-CQ8_1-IndTra_21-TR01-Dbt-Client_18 AMIF:hasTransactionMeans AMIF:AMIF-TransactionMeans-Teller.
+
+    #asociation between individual transaction and account
+    AMIF:AMIF-CQ8_1-IndTra_01-TR01-Cdt-Client_18 ClientsAndAccounts:appliesToAccount AMIF:AMIF-CQ8_1-Account_02-Client_18.
+    AMIF:AMIF-CQ8_1-IndTra_02-TR01-Cdt-Client_18 ClientsAndAccounts:appliesToAccount AMIF:AMIF-CQ8_1-Account_02-Client_18.
+    AMIF:AMIF-CQ8_1-IndTra_03-TR01-Cdt-Client_18 ClientsAndAccounts:appliesToAccount AMIF:AMIF-CQ8_1-Account_02-Client_18.
+    AMIF:AMIF-CQ8_1-IndTra_04-TR01-Cdt-Client_18 ClientsAndAccounts:appliesToAccount AMIF:AMIF-CQ8_1-Account_02-Client_18.
+    AMIF:AMIF-CQ8_1-IndTra_05-TR01-Cdt-Client_18 ClientsAndAccounts:appliesToAccount AMIF:AMIF-CQ8_1-Account_02-Client_18.
+    AMIF:AMIF-CQ8_1-IndTra_06-TR01-Cdt-Client_18 ClientsAndAccounts:appliesToAccount AMIF:AMIF-CQ8_1-Account_03-Client_18.
+    AMIF:AMIF-CQ8_1-IndTra_07-TR01-Cdt-Client_18 ClientsAndAccounts:appliesToAccount AMIF:AMIF-CQ8_1-Account_03-Client_18.
+    AMIF:AMIF-CQ8_1-IndTra_08-TR01-Cdt-Client_18 ClientsAndAccounts:appliesToAccount AMIF:AMIF-CQ8_1-Account_03-Client_18.
+    AMIF:AMIF-CQ8_1-IndTra_09-TR01-Cdt-Client_18 ClientsAndAccounts:appliesToAccount AMIF:AMIF-CQ8_1-Account_03-Client_18.
+    AMIF:AMIF-CQ8_1-IndTra_10-TR01-Cdt-Client_18 ClientsAndAccounts:appliesToAccount AMIF:AMIF-CQ8_1-Account_03-Client_18.
+    AMIF:AMIF-CQ8_1-IndTra_11-TR01-Cdt-Client_18 ClientsAndAccounts:appliesToAccount AMIF:AMIF-CQ8_1-Account_04-Client_18.
+    AMIF:AMIF-CQ8_1-IndTra_12-TR01-Cdt-Client_18 ClientsAndAccounts:appliesToAccount AMIF:AMIF-CQ8_1-Account_04-Client_18.
+    AMIF:AMIF-CQ8_1-IndTra_13-TR01-Cdt-Client_18 ClientsAndAccounts:appliesToAccount AMIF:AMIF-CQ8_1-Account_04-Client_18.
+    AMIF:AMIF-CQ8_1-IndTra_14-TR01-Cdt-Client_18 ClientsAndAccounts:appliesToAccount AMIF:AMIF-CQ8_1-Account_04-Client_18.
+    AMIF:AMIF-CQ8_1-IndTra_15-TR01-Cdt-Client_18 ClientsAndAccounts:appliesToAccount AMIF:AMIF-CQ8_1-Account_04-Client_18.
+    AMIF:AMIF-CQ8_1-IndTra_16-TR01-Cdt-Client_18 ClientsAndAccounts:appliesToAccount AMIF:AMIF-CQ8_1-Account_05-Client_18.
+    AMIF:AMIF-CQ8_1-IndTra_17-TR01-Cdt-Client_18 ClientsAndAccounts:appliesToAccount AMIF:AMIF-CQ8_1-Account_05-Client_18.
+    AMIF:AMIF-CQ8_1-IndTra_18-TR01-Cdt-Client_18 ClientsAndAccounts:appliesToAccount AMIF:AMIF-CQ8_1-Account_05-Client_18.
+    AMIF:AMIF-CQ8_1-IndTra_19-TR01-Dbt-Client_18 ClientsAndAccounts:appliesToAccount AMIF:AMIF-CQ8_1-Account_05-Client_18.
+    AMIF:AMIF-CQ8_1-IndTra_20-TR01-Dbt-Client_18 ClientsAndAccounts:appliesToAccount AMIF:AMIF-CQ8_1-Account_05-Client_18.
+    AMIF:AMIF-CQ8_1-IndTra_21-TR01-Dbt-Client_18 ClientsAndAccounts:appliesToAccount AMIF:AMIF-CQ8_1-Account_04-Client_18.
+
+
+    #individual transaction for AMIF-CQ8_1-Account_02-Client_18
+
+    #definition of the account type
+    AMIF:AMIF-CQ8_1-Account_02-Client_18 AMIF:isAccountType AMIF:AMIF-BusinessAccount.
+
+    #is inactive or dormant account
+    AMIF:AMIF-CQ8_1-Account_02-Client_18 AMIF:isInactiveAccount "false"^^xsd:boolean.
+    AMIF:AMIF-CQ8_1-Account_02-Client_18 AMIF:isDormantAccount "false"^^xsd:boolean.
+
+
+    #individual transaction for AMIF-CQ8_1-Account_03-Client_18
+
+    #definition of the account type
+    AMIF:AMIF-CQ8_1-Account_03-Client_18 AMIF:isAccountType AMIF:AMIF-BusinessAccount.
+
+    #is inactive or dormant account
+    AMIF:AMIF-CQ8_1-Account_03-Client_18 AMIF:isInactiveAccount "false"^^xsd:boolean.
+    AMIF:AMIF-CQ8_1-Account_03-Client_18 AMIF:isDormantAccount "false"^^xsd:boolean.
+
+
+    #individual transaction for AMIF-CQ8_1-Account_04-Client_18
+
+    #definition of the account type
+    AMIF:AMIF-CQ8_1-Account_04-Client_18 AMIF:isAccountType AMIF:AMIF-BusinessAccount.
+
+    #is inactive or dormant account
+    AMIF:AMIF-CQ8_1-Account_04-Client_18 AMIF:isInactiveAccount "false"^^xsd:boolean.
+    AMIF:AMIF-CQ8_1-Account_04-Client_18 AMIF:isDormantAccount "false"^^xsd:boolean.
+
+    #definition of the individual transactions
+    AMIF:AMIF-CQ8_1-IndTra_01-TR04-Cdt-Client_18 rdf:type ClientsAndAccounts:IndividualTransaction.
+    AMIF:AMIF-CQ8_1-IndTra_02-TR04-Cdt-Client_18 rdf:type ClientsAndAccounts:IndividualTransaction.
+    AMIF:AMIF-CQ8_1-IndTra_03-TR04-Dbt-Client_18 rdf:type ClientsAndAccounts:IndividualTransaction.
+    AMIF:AMIF-CQ8_1-IndTra_04-TR04-Dbt-Client_18 rdf:type ClientsAndAccounts:IndividualTransaction.
+    AMIF:AMIF-CQ8_1-IndTra_05-TR04-Dbt-Client_18 rdf:type ClientsAndAccounts:IndividualTransaction.
+
+    #association to individual transaction with transaction record
+    AMIF:AMIF-CQ8_1-TransactionRecord_04-Client_18 RegistrationAuthorities:hasRegistryEntry AMIF:AMIF-CQ8_1-IndTra_01-TR04-Cdt-Client_18.
+    AMIF:AMIF-CQ8_1-TransactionRecord_04-Client_18 RegistrationAuthorities:hasRegistryEntry AMIF:AMIF-CQ8_1-IndTra_02-TR04-Cdt-Client_18.
+    AMIF:AMIF-CQ8_1-TransactionRecord_04-Client_18 RegistrationAuthorities:hasRegistryEntry AMIF:AMIF-CQ8_1-IndTra_03-TR04-Dbt-Client_18.
+    AMIF:AMIF-CQ8_1-TransactionRecord_04-Client_18 RegistrationAuthorities:hasRegistryEntry AMIF:AMIF-CQ8_1-IndTra_04-TR04-Dbt-Client_18.
+    AMIF:AMIF-CQ8_1-TransactionRecord_04-Client_18 RegistrationAuthorities:hasRegistryEntry AMIF:AMIF-CQ8_1-IndTra_05-TR04-Dbt-Client_18.
+
+    #definition of monetaryAmount for individual transaction
+    AMIF:AMIF-CQ8_1-MnAmt-IndTra_01-TR04-Client_18 rdf:type CurrencyAmount:MonetaryAmount.
+    AMIF:AMIF-CQ8_1-MnAmt-IndTra_02-TR04-Client_18 rdf:type CurrencyAmount:MonetaryAmount.
+    AMIF:AMIF-CQ8_1-MnAmt-IndTra_03-TR04-Client_18 rdf:type CurrencyAmount:MonetaryAmount.
+    AMIF:AMIF-CQ8_1-MnAmt-IndTra_04-TR04-Client_18 rdf:type CurrencyAmount:MonetaryAmount.
+    AMIF:AMIF-CQ8_1-MnAmt-IndTra_05-TR04-Client_18 rdf:type CurrencyAmount:MonetaryAmount.
+
+    #date time of the individual transaction
+    AMIF:AMIF-CQ8_1-IndTra_01-TR04-Cdt-Client_18 AMIF:hasTransactionDateTime "2021-05-03T00:00:00"^^xsd:dateTime.
+    AMIF:AMIF-CQ8_1-IndTra_02-TR04-Cdt-Client_18 AMIF:hasTransactionDateTime "2021-05-11T00:00:00"^^xsd:dateTime.
+    AMIF:AMIF-CQ8_1-IndTra_03-TR04-Dbt-Client_18 AMIF:hasTransactionDateTime "2021-05-21T00:00:00"^^xsd:dateTime.
+    AMIF:AMIF-CQ8_1-IndTra_04-TR04-Dbt-Client_18 AMIF:hasTransactionDateTime "2021-05-14T00:00:00"^^xsd:dateTime.
+    AMIF:AMIF-CQ8_1-IndTra_05-TR04-Dbt-Client_18 AMIF:hasTransactionDateTime "2021-05-10T00:00:00"^^xsd:dateTime.
+
+    #amount of the amount money
+    AMIF:AMIF-CQ8_1-MnAmt-IndTra_01-TR04-Client_18 CurrencyAmount:hasAmount "19000"^^xsd:decimal.
+    AMIF:AMIF-CQ8_1-MnAmt-IndTra_02-TR04-Client_18 CurrencyAmount:hasAmount "5400"^^xsd:decimal.
+    AMIF:AMIF-CQ8_1-MnAmt-IndTra_03-TR04-Client_18 CurrencyAmount:hasAmount "1500"^^xsd:decimal.
+    AMIF:AMIF-CQ8_1-MnAmt-IndTra_04-TR04-Client_18 CurrencyAmount:hasAmount "2500"^^xsd:decimal.
+    AMIF:AMIF-CQ8_1-MnAmt-IndTra_05-TR04-Client_18 CurrencyAmount:hasAmount "13500"^^xsd:decimal.
+
+    #association of individual transaction with monetary amount
+    AMIF:AMIF-CQ8_1-IndTra_01-TR04-Cdt-Client_18 CurrencyAmount:hasMonetaryAmount AMIF:AMIF-CQ8_1-MnAmt-IndTra_01-TR04-Client_18.
+    AMIF:AMIF-CQ8_1-IndTra_02-TR04-Cdt-Client_18 CurrencyAmount:hasMonetaryAmount AMIF:AMIF-CQ8_1-MnAmt-IndTra_02-TR04-Client_18.
+    AMIF:AMIF-CQ8_1-IndTra_03-TR04-Dbt-Client_18 CurrencyAmount:hasMonetaryAmount AMIF:AMIF-CQ8_1-MnAmt-IndTra_03-TR04-Client_18.
+    AMIF:AMIF-CQ8_1-IndTra_04-TR04-Dbt-Client_18 CurrencyAmount:hasMonetaryAmount AMIF:AMIF-CQ8_1-MnAmt-IndTra_04-TR04-Client_18.
+    AMIF:AMIF-CQ8_1-IndTra_05-TR04-Dbt-Client_18 CurrencyAmount:hasMonetaryAmount AMIF:AMIF-CQ8_1-MnAmt-IndTra_05-TR04-Client_18.
+
+    #definition of type of transaction
+    AMIF:AMIF-CQ8_1-IndTra_01-TR04-Cdt-Client_18 CountryRepresentation:isClassifiedBy AMIF:AMIF-Credit-Transaction.
+    AMIF:AMIF-CQ8_1-IndTra_02-TR04-Cdt-Client_18 CountryRepresentation:isClassifiedBy AMIF:AMIF-Credit-Transaction.
+    AMIF:AMIF-CQ8_1-IndTra_03-TR04-Dbt-Client_18 CountryRepresentation:isClassifiedBy AMIF:AMIF-Debit-Transaction.
+    AMIF:AMIF-CQ8_1-IndTra_04-TR04-Dbt-Client_18 CountryRepresentation:isClassifiedBy AMIF:AMIF-Debit-Transaction.
+    AMIF:AMIF-CQ8_1-IndTra_05-TR04-Dbt-Client_18 CountryRepresentation:isClassifiedBy AMIF:AMIF-Debit-Transaction.
+
+    #definition of transaction type
+    AMIF:AMIF-CQ8_1-IndTra_01-TR04-Cdt-Client_18 AMIF:isTransactionType AMIF:AMIF-PM-Electronic.
+    AMIF:AMIF-CQ8_1-IndTra_02-TR04-Cdt-Client_18 AMIF:isTransactionType AMIF:AMIF-PM-Electronic.
+    AMIF:AMIF-CQ8_1-IndTra_03-TR04-Dbt-Client_18 AMIF:isTransactionType AMIF:AMIF-PM-Cash.
+    AMIF:AMIF-CQ8_1-IndTra_04-TR04-Dbt-Client_18 AMIF:isTransactionType AMIF:AMIF-PM-Cash.
+    AMIF:AMIF-CQ8_1-IndTra_05-TR04-Dbt-Client_18 AMIF:isTransactionType AMIF:AMIF-PM-Cash.
+
+    #definition of type of the transaction mean for individual transaction
+    AMIF:AMIF-CQ8_1-IndTra_01-TR04-Cdt-Client_18 AMIF:hasTransactionMeans AMIF:AMIF-TransactionMeans-Teller.
+    AMIF:AMIF-CQ8_1-IndTra_02-TR04-Cdt-Client_18 AMIF:hasTransactionMeans AMIF:AMIF-TransactionMeans-Teller.
+    AMIF:AMIF-CQ8_1-IndTra_03-TR04-Dbt-Client_18 AMIF:hasTransactionMeans AMIF:AMIF-TransactionMeans-Teller.
+    AMIF:AMIF-CQ8_1-IndTra_04-TR04-Dbt-Client_18 AMIF:hasTransactionMeans AMIF:AMIF-TransactionMeans-Teller.
+    AMIF:AMIF-CQ8_1-IndTra_05-TR04-Dbt-Client_18 AMIF:hasTransactionMeans AMIF:AMIF-TransactionMeans-Teller.
+}

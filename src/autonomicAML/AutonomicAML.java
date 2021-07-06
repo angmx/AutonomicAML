@@ -46,6 +46,8 @@ public class AutonomicAML {
      * This method start the sequence
      */
     public static void start() {
+    	
+    	monitor.insertInstance();
         //monitor.getAccounts(accountList);//obtienen las cuentas
     	System.out.println("AutonomicAML Begins");
         monitor.setInactiveAndDormantAccount();

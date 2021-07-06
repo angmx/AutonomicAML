@@ -1,11 +1,13 @@
 package autonomicAML.dataLayer;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -301,6 +303,29 @@ public class DAO_KB_CERPRO {
 					query_result_list.get(i).getLiteral("Credits_sum").getDouble());
 		}
 		return (HashMap<String, Double>) account_sum;
+	}
+	
+	public void getFileNames(String dir){
+		String sCarpAct = System.getProperty("user.dir");
+		File carpeta = new File(sCarpAct+"/"+dir);
+		
+		System.out.println("********"+carpeta.getName()+"*************");
+		String[] listado = carpeta.list();
+		ArrayList<String> nombresArchivos = new ArrayList<String>(Arrays.asList(listado));
+		nombresArchivos.remove("desktop.ini");
+		
+		
+		/*if (nombresArchivos == null || nombresArchivos.size() == 0) {
+		    System.out.println("No hay elementos dentro de la carpeta actual");
+		    return;
+		}
+		else {
+		    for (int i=0; i< nombresArchivos.size(); i++) {
+		        System.out.println(nombresArchivos.get(i));
+		    }
+		}
+		System.out.println("***********************************");*/
+		return;
 	}
 
 	public String readFile(InputStreamReader fileName) {

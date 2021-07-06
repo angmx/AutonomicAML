@@ -1,0 +1,202 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX AMIF: <http://www.semanticweb.org/ontologies/2020/AMIF-Banking#>
+PREFIX ClientsAndAccounts: <https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/ClientsAndAccounts/>
+PREFIX Documents: <https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Documents/>
+PREFIX RegistrationAuthorities: <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/RegistrationAuthorities/>
+PREFIX CountryRepresentation: <https://www.omg.org/spec/LCC/Countries/CountryRepresentation/>
+PREFIX CurrencyAmount: <https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/>
+PREFIX Relations: <https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/>
+PREFIX ProductsAndServices: <https://spec.edmcouncil.org/fibo/ontology/FND/ProductsAndServices/ProductsAndServices/>
+PREFIX Facilities: <https://spec.edmcouncil.org/fibo/ontology/FND/Places/Facilities/>
+PREFIX Locations: <https://spec.edmcouncil.org/fibo/ontology/FND/Places/Locations/>
+
+INSERT DATA{
+	AMIF:AMIF-CQ8_1-AccountHolder-Client_19 rdf:type ClientsAndAccounts:AccountHolder.
+	AMIF:AMIF-CQ8_1-AccountHolder-Client_19 AMIF:hasNameOfAccountHolder "Client 19 CQ8.1"^^xsd:string.
+
+    AMIF:AMIF-CQ8_1-AccountHolder-Client_20 rdf:type ClientsAndAccounts:AccountHolder.
+    AMIF:AMIF-CQ8_1-AccountHolder-Client_20 AMIF:hasNameOfAccountHolder "Client 20 CQ8.1"^^xsd:string.
+
+    # various account of same customer
+    AMIF:AMIF-CQ8_1-Account_01-Client_19 rdf:type ClientsAndAccounts:Account.
+  	AMIF:AMIF-CQ8_1-Account_02-Client_20 rdf:type ClientsAndAccounts:Account.
+  	AMIF:AMIF-CQ8_1-Account_03-Client_21 rdf:type ClientsAndAccounts:Account.
+    AMIF:AMIF-CQ8_1-Account_03-Client_22 rdf:type ClientsAndAccounts:Account.
+    AMIF:AMIF-CQ8_1-Account_03-Client_23 rdf:type ClientsAndAccounts:Account.
+    AMIF:AMIF-CQ8_1-Account_03-Client_24 rdf:type ClientsAndAccounts:Account.
+
+  	# definition of banks
+    AMIF:AMIF-BR-AccountProvider-Bank_A rdf:type ClientsAndAccounts:AccountProvider.
+    AMIF:AMIF-BR-AccountProvider-Bank_B rdf:type ClientsAndAccounts:AccountProvider.
+
+    # relation between account to banks
+    AMIF:AMIF-CQ8_1-Account_01-Client_19 Relations:isProvidedBy AMIF:AMIF-BR-AccountProvider-Bank_A.
+    AMIF:AMIF-CQ8_1-Account_02-Client_20 Relations:isProvidedBy AMIF:AMIF-BR-AccountProvider-Bank_A.
+    AMIF:AMIF-CQ8_1-Account_03-Client_21 Relations:isProvidedBy AMIF:AMIF-BR-AccountProvider-Bank_B.
+    AMIF:AMIF-CQ8_1-Account_03-Client_22 Relations:isProvidedBy AMIF:AMIF-BR-AccountProvider-Bank_B.
+    AMIF:AMIF-CQ8_1-Account_03-Client_23 Relations:isProvidedBy AMIF:AMIF-BR-AccountProvider-Bank_A.
+    AMIF:AMIF-CQ8_1-Account_03-Client_24 Relations:isProvidedBy AMIF:AMIF-BR-AccountProvider-Bank_B.
+
+    # definition of transaction record
+    AMIF:AMIF-CQ8_1-TransactionRecord_01-Client_19 rdf:type ClientsAndAccounts:TransactionRecord.
+    AMIF:AMIF-CQ8_1-TransactionRecord_02-Client_20 rdf:type ClientsAndAccounts:TransactionRecord.
+
+    # transaction record for each account
+    AMIF:AMIF-CQ8_1-Account_01-Client_19 Documents:hasRecord AMIF:AMIF-CQ8_1-TransactionRecord_01-Client_19.
+    AMIF:AMIF-CQ8_1-Account_02-Client_20 Documents:hasRecord AMIF:AMIF-CQ8_1-TransactionRecord_02-Client_20.
+
+    # association between client and accounts
+    AMIF:AMIF-CQ8_1-Account_01-Client_19 Relations:isHeldBy AMIF:AMIF-CQ8_1-AccountHolder-Client_19.
+    AMIF:AMIF-CQ8_1-Account_02-Client_20 Relations:isHeldBy AMIF:AMIF-CQ8_1-AccountHolder-Client_20.
+
+    # inverse funtion of the isHeldBy
+    AMIF:AMIF-CQ8_1-AccountHolder-Client_19 Relations:holds AMIF:AMIF-CQ8_1-Account_01-Client_19.
+    AMIF:AMIF-CQ8_1-AccountHolder-Client_20 Relations:holds AMIF:AMIF-CQ8_1-Account_02-Client_20.
+
+    # definition cutoff period
+    AMIF:AMIF-CQ8_1-CutOffPeriodSum_01-Client_19 rdf:type AMIF:CutOffPeriodSum.
+    AMIF:AMIF-CQ8_1-CutOffPeriodSum_02-Client_20 rdf:type AMIF:CutOffPeriodSum.
+
+    # cutoff period for transaction record
+    AMIF:AMIF-CQ8_1-TransactionRecord_01-Client_19 AMIF:hasCutOffPeriodSum AMIF:AMIF-CQ8_1-CutOffPeriodSum_01-Client_19.
+    AMIF:AMIF-CQ8_1-TransactionRecord_02-Client_20 AMIF:hasCutOffPeriodSum AMIF:AMIF-CQ8_1-CutOffPeriodSum_02-Client_20.
+
+
+    #----individual transactions for each account
+    #individual transaction for AMIF-CQ8_1-Account_01-Client_19
+
+    #definition of the account type
+    AMIF:AMIF-CQ8_1-Account_01-Client_19 AMIF:isAccountType AMIF:AMIF-PersonalAccount.
+
+    #definition of the individual transactions
+    AMIF:AMIF-CQ8_1-IndTra_01-TR01-Cdt-Client_19 rdf:type ClientsAndAccounts:IndividualTransaction.
+    AMIF:AMIF-CQ8_1-IndTra_02-TR01-Cdt-Client_19 rdf:type ClientsAndAccounts:IndividualTransaction.
+    AMIF:AMIF-CQ8_1-IndTra_03-TR01-Dbt-Client_19 rdf:type ClientsAndAccounts:IndividualTransaction.
+
+    #association to individual transaction with transaction record
+    AMIF:AMIF-CQ8_1-TransactionRecord_01-Client_19 RegistrationAuthorities:hasRegistryEntry AMIF:AMIF-CQ8_1-IndTra_01-TR01-Cdt-Client_19.
+    AMIF:AMIF-CQ8_1-TransactionRecord_01-Client_19 RegistrationAuthorities:hasRegistryEntry AMIF:AMIF-CQ8_1-IndTra_02-TR01-Cdt-Client_19.
+    AMIF:AMIF-CQ8_1-TransactionRecord_01-Client_19 RegistrationAuthorities:hasRegistryEntry AMIF:AMIF-CQ8_1-IndTra_03-TR01-Dbt-Client_19.
+
+    #definition of monetaryAmount for individual transaction
+    AMIF:AMIF-CQ8_1-MnAmt-IndTra_01-TR01-Client_19 rdf:type CurrencyAmount:MonetaryAmount.
+    AMIF:AMIF-CQ8_1-MnAmt-IndTra_02-TR01-Client_19 rdf:type CurrencyAmount:MonetaryAmount.
+    AMIF:AMIF-CQ8_1-MnAmt-IndTra_03-TR01-Client_19 rdf:type CurrencyAmount:MonetaryAmount.
+
+    #date time of the individual transaction
+    AMIF:AMIF-CQ8_1-IndTra_01-TR01-Cdt-Client_19 AMIF:hasTransactionDateTime "2021-05-01T00:00:00"^^xsd:dateTime.
+    AMIF:AMIF-CQ8_1-IndTra_02-TR01-Cdt-Client_19 AMIF:hasTransactionDateTime "2021-04-12T00:00:00"^^xsd:dateTime.
+    AMIF:AMIF-CQ8_1-IndTra_03-TR01-Dbt-Client_19 AMIF:hasTransactionDateTime "2021-04-22T00:00:00"^^xsd:dateTime.
+
+    #amount of the amount money
+    AMIF:AMIF-CQ8_1-MnAmt-IndTra_01-TR01-Client_19 CurrencyAmount:hasAmount "1500"^^xsd:decimal.
+    AMIF:AMIF-CQ8_1-MnAmt-IndTra_02-TR01-Client_19 CurrencyAmount:hasAmount "7500"^^xsd:decimal.
+    AMIF:AMIF-CQ8_1-MnAmt-IndTra_03-TR01-Client_19 CurrencyAmount:hasAmount "1000"^^xsd:decimal.
+
+    #association of individual transaction with monetary amount
+    AMIF:AMIF-CQ8_1-IndTra_01-TR01-Cdt-Client_19 CurrencyAmount:hasMonetaryAmount AMIF:AMIF-CQ8_1-MnAmt-IndTra_01-TR01-Client_19.
+    AMIF:AMIF-CQ8_1-IndTra_02-TR01-Cdt-Client_19 CurrencyAmount:hasMonetaryAmount AMIF:AMIF-CQ8_1-MnAmt-IndTra_02-TR01-Client_19.
+    AMIF:AMIF-CQ8_1-IndTra_03-TR01-Cdt-Client_19 CurrencyAmount:hasMonetaryAmount AMIF:AMIF-CQ8_1-MnAmt-IndTra_03-TR01-Client_19.
+
+    #definition of type of transaction
+    AMIF:AMIF-CQ8_1-IndTra_01-TR01-Cdt-Client_19 CountryRepresentation:isClassifiedBy AMIF:AMIF-Credit-Transaction.
+    AMIF:AMIF-CQ8_1-IndTra_02-TR01-Cdt-Client_19 CountryRepresentation:isClassifiedBy AMIF:AMIF-Credit-Transaction.
+    AMIF:AMIF-CQ8_1-IndTra_03-TR01-Dbt-Client_19 CountryRepresentation:isClassifiedBy AMIF:AMIF-Debit-Transaction.
+
+    #definition of transaction type
+    AMIF:AMIF-CQ8_1-IndTra_01-TR01-Cdt-Client_19 AMIF:isTransactionType AMIF:AMIF-PM-Electronic.
+    AMIF:AMIF-CQ8_1-IndTra_02-TR01-Cdt-Client_19 AMIF:isTransactionType AMIF:AMIF-PM-Electronic.
+    AMIF:AMIF-CQ8_1-IndTra_03-TR01-Dbt-Client_19 AMIF:isTransactionType AMIF:AMIF-PM-Electronic.
+
+    #definition of appliesToAccount for the individual transaction
+    AMIF:AMIF-CQ8_1-IndTra_01-TR01-Cdt-Client_19 ClientsAndAccounts:appliesToAccount AMIF:AMIF-CQ8_1-Account_03-Client_21.
+    AMIF:AMIF-CQ8_1-IndTra_02-TR01-Cdt-Client_19 ClientsAndAccounts:appliesToAccount AMIF:AMIF-CQ8_1-Account_03-Client_22.
+
+
+    #individual transaction for AMIF-CQ8_1-Account_02-Client_20
+
+    #definition of the account type
+    AMIF:AMIF-CQ8_1-Account_02-Client_20 AMIF:isAccountType AMIF:AMIF-BusinessAccount.
+
+    #definition of the individual transactions
+    AMIF:AMIF-CQ8_1-IndTra_01-TR02-Cdt-Client_20 rdf:type ClientsAndAccounts:IndividualTransaction.
+    AMIF:AMIF-CQ8_1-IndTra_02-TR02-Cdt-Client_20 rdf:type ClientsAndAccounts:IndividualTransaction.
+    AMIF:AMIF-CQ8_1-IndTra_03-TR02-Cdt-Client_20 rdf:type ClientsAndAccounts:IndividualTransaction.
+    AMIF:AMIF-CQ8_1-IndTra_04-TR02-Cdt-Client_20 rdf:type ClientsAndAccounts:IndividualTransaction.
+
+    #association to individual transaction with transaction record
+    AMIF:AMIF-CQ8_1-TransactionRecord_02-Client_20 RegistrationAuthorities:hasRegistryEntry AMIF:AMIF-CQ8_1-IndTra_01-TR02-Cdt-Client_20.
+    AMIF:AMIF-CQ8_1-TransactionRecord_02-Client_20 RegistrationAuthorities:hasRegistryEntry AMIF:AMIF-CQ8_1-IndTra_02-TR02-Cdt-Client_20.
+    AMIF:AMIF-CQ8_1-TransactionRecord_02-Client_20 RegistrationAuthorities:hasRegistryEntry AMIF:AMIF-CQ8_1-IndTra_03-TR02-Cdt-Client_20.
+    AMIF:AMIF-CQ8_1-TransactionRecord_02-Client_20 RegistrationAuthorities:hasRegistryEntry AMIF:AMIF-CQ8_1-IndTra_04-TR02-Cdt-Client_20.
+
+    #definition of monetaryAmount for individual transaction
+    AMIF:AMIF-CQ8_1-MnAmt-IndTra_01-TR02-Client_20 rdf:type CurrencyAmount:MonetaryAmount.
+    AMIF:AMIF-CQ8_1-MnAmt-IndTra_02-TR02-Client_20 rdf:type CurrencyAmount:MonetaryAmount.
+    AMIF:AMIF-CQ8_1-MnAmt-IndTra_03-TR02-Client_20 rdf:type CurrencyAmount:MonetaryAmount.
+    AMIF:AMIF-CQ8_1-MnAmt-IndTra_04-TR02-Client_20 rdf:type CurrencyAmount:MonetaryAmount.
+
+    #date time of the individual transaction
+    AMIF:AMIF-CQ8_1-IndTra_01-TR02-Cdt-Client_20 AMIF:hasTransactionDateTime "2021-05-11T00:00:00"^^xsd:dateTime.
+    AMIF:AMIF-CQ8_1-IndTra_02-TR02-Cdt-Client_20 AMIF:hasTransactionDateTime "2021-04-23T00:00:00"^^xsd:dateTime.
+    AMIF:AMIF-CQ8_1-IndTra_03-TR02-Cdt-Client_20 AMIF:hasTransactionDateTime "2021-04-21T00:00:00"^^xsd:dateTime.
+    AMIF:AMIF-CQ8_1-IndTra_04-TR02-Cdt-Client_20 AMIF:hasTransactionDateTime "2021-05-14T00:00:00"^^xsd:dateTime.
+
+    #amount of the amount money
+    AMIF:AMIF-CQ8_1-MnAmt-IndTra_01-TR02-Client_20 CurrencyAmount:hasAmount "15000"^^xsd:decimal.
+    AMIF:AMIF-CQ8_1-MnAmt-IndTra_02-TR02-Client_20 CurrencyAmount:hasAmount "500"^^xsd:decimal.
+    AMIF:AMIF-CQ8_1-MnAmt-IndTra_03-TR02-Client_20 CurrencyAmount:hasAmount "1500"^^xsd:decimal.
+    AMIF:AMIF-CQ8_1-MnAmt-IndTra_04-TR02-Client_20 CurrencyAmount:hasAmount "2500"^^xsd:decimal.
+
+    #association of individual transaction with monetary amount
+    AMIF:AMIF-CQ8_1-IndTra_01-TR02-Cdt-Client_20 CurrencyAmount:hasMonetaryAmount AMIF:AMIF-CQ8_1-MnAmt-IndTra_01-TR02-Client_20.
+    AMIF:AMIF-CQ8_1-IndTra_02-TR02-Cdt-Client_20 CurrencyAmount:hasMonetaryAmount AMIF:AMIF-CQ8_1-MnAmt-IndTra_02-TR02-Client_20.
+    AMIF:AMIF-CQ8_1-IndTra_03-TR02-Cdt-Client_20 CurrencyAmount:hasMonetaryAmount AMIF:AMIF-CQ8_1-MnAmt-IndTra_03-TR02-Client_20.
+    AMIF:AMIF-CQ8_1-IndTra_04-TR02-Cdt-Client_20 CurrencyAmount:hasMonetaryAmount AMIF:AMIF-CQ8_1-MnAmt-IndTra_04-TR02-Client_20.
+
+    #definition of type of transaction
+    AMIF:AMIF-CQ8_1-IndTra_01-TR02-Cdt-Client_20 CountryRepresentation:isClassifiedBy AMIF:AMIF-Credit-Transaction.
+    AMIF:AMIF-CQ8_1-IndTra_02-TR02-Cdt-Client_20 CountryRepresentation:isClassifiedBy AMIF:AMIF-Credit-Transaction.
+    AMIF:AMIF-CQ8_1-IndTra_03-TR02-Cdt-Client_20 CountryRepresentation:isClassifiedBy AMIF:AMIF-Credit-Transaction.
+    AMIF:AMIF-CQ8_1-IndTra_04-TR02-Cdt-Client_20 CountryRepresentation:isClassifiedBy AMIF:AMIF-Credit-Transaction.
+
+    #definition of transaction type
+    AMIF:AMIF-CQ8_1-IndTra_01-TR02-Cdt-Client_20 AMIF:isTransactionType AMIF:AMIF-PM-Electronic.
+    AMIF:AMIF-CQ8_1-IndTra_02-TR02-Cdt-Client_20 AMIF:isTransactionType AMIF:AMIF-PM-Electronic.
+    AMIF:AMIF-CQ8_1-IndTra_03-TR02-Cdt-Client_20 AMIF:isTransactionType AMIF:AMIF-PM-Electronic.
+    AMIF:AMIF-CQ8_1-IndTra_04-TR02-Cdt-Client_20 AMIF:isTransactionType AMIF:AMIF-PM-Electronic.
+
+    #definition of appliesToAccount for the individual transaction
+    AMIF:AMIF-CQ8_1-IndTra_01-TR02-Cdt-Client_20 ClientsAndAccounts:appliesToAccount AMIF:AMIF-CQ8_1-Account_03-Client_23.
+    AMIF:AMIF-CQ8_1-IndTra_02-TR02-Cdt-Client_20 ClientsAndAccounts:appliesToAccount AMIF:AMIF-CQ8_1-Account_03-Client_24.
+    AMIF:AMIF-CQ8_1-IndTra_03-TR02-Cdt-Client_20 ClientsAndAccounts:appliesToAccount AMIF:AMIF-CQ8_1-Account_03-Client_24.
+    AMIF:AMIF-CQ8_1-IndTra_04-TR02-Cdt-Client_20 ClientsAndAccounts:appliesToAccount AMIF:AMIF-CQ8_1-Account_03-Client_23.
+
+
+    #individual transaction for AMIF-CQ8_1-Account_03-Client_21
+
+    #definition of the account type
+    AMIF:AMIF-CQ8_1-Account_03-Client_21 AMIF:isAccountType AMIF:AMIF-BusinessAccount.
+
+   
+    #individual transaction for AMIF-CQ8_1-Account_03-Client_22
+
+    #definition of the account type
+    AMIF:AMIF-CQ8_1-Account_03-Client_22 AMIF:isAccountType AMIF:AMIF-BusinessAccount.
+
+
+    #individual transaction for AMIF-CQ8_1-Account_03-Client_23
+
+    #definition of the account type
+    AMIF:AMIF-CQ8_1-Account_03-Client_23 AMIF:isAccountType AMIF:AMIF-PersonalAccount.
+
+   
+    #individual transaction for AMIF-CQ8_1-Account_03-Client_24
+
+    #definition of the account type
+    AMIF:AMIF-CQ8_1-Account_03-Client_24 AMIF:isAccountType AMIF:AMIF-PersonalAccount.
+
+}

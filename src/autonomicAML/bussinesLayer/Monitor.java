@@ -130,6 +130,16 @@ public class Monitor {
 			//logger.info("Consolidation Process");
 			
 		}
+		
+		/**
+		 * Metodo para insertar todas las instancias necesarias para ejecutar el protocolo de prueba
+		 */
+		public void insertInstance() {
+			//leemos de la carpeta donde se encuentran los queries para obtener los nombres de los archivos
+			daoKB.getFileNames("src/Insert_queries");
+			
+			//iteramos cada nombre de archivo para insertarlo
+		}
 		/**
 		 * Consolida las transacciones en cheque en la base de conocimiento desde el inicio del
 		 * periodo de corte hasta el momento en que se manda a llamar al metodo. Es

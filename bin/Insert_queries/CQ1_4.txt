@@ -1,0 +1,234 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX AMIF: <http://www.semanticweb.org/ontologies/2020/AMIF-Banking#>
+PREFIX ClientsAndAccounts: <https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/ClientsAndAccounts/>
+PREFIX Documents: <https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Documents/>
+PREFIX RegistrationAuthorities: <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/RegistrationAuthorities/>
+PREFIX CountryRepresentation: <https://www.omg.org/spec/LCC/Countries/CountryRepresentation/>
+PREFIX CurrencyAmount: <https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/>
+PREFIX Relations: <https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/>
+PREFIX ProductsAndServices: <https://spec.edmcouncil.org/fibo/ontology/FND/ProductsAndServices/ProductsAndServices/>
+PREFIX Facilities: <https://spec.edmcouncil.org/fibo/ontology/FND/Places/Facilities/>
+PREFIX Locations: <https://spec.edmcouncil.org/fibo/ontology/FND/Places/Locations/>
+
+INSERT DATA{
+	AMIF:AMIF-CQ1_4-AccountHolder-Client_04 rdf:type ClientsAndAccounts:AccountHolder.
+	AMIF:AMIF-CQ1_4-AccountHolder-Client_04 AMIF:hasNameOfAccountHolder "Client 04 CQ1.4"^^xsd:string.
+
+    # various account of same customer
+    AMIF:AMIF-CQ1_4-Account_01-Client_04 rdf:type ClientsAndAccounts:Account.
+  	AMIF:AMIF-CQ1_4-Account_02-Client_04 rdf:type ClientsAndAccounts:Account.
+  	AMIF:AMIF-CQ1_4-Account_03-Client_04 rdf:type ClientsAndAccounts:Account.
+
+  	# definition of banks
+    AMIF:AMIF-AccountProvider-Bank_C rdf:type ClientsAndAccounts:AccountProvider.
+    AMIF:AMIF-AccountProvider-Bank_D rdf:type ClientsAndAccounts:AccountProvider.
+
+    # relation between account to banks
+    AMIF:AMIF-CQ1_4-Account_01-Client_04 Relations:isProvidedBy AMIF:AMIF-AccountProvider-Bank_C.
+    AMIF:AMIF-CQ1_4-Account_02-Client_04 Relations:isProvidedBy AMIF:AMIF-AccountProvider-Bank_C.
+    AMIF:AMIF-CQ1_4-Account_03-Client_04 Relations:isProvidedBy AMIF:AMIF-AccountProvider-Bank_D.
+
+    #definition of the facility
+    AMIF:AMIF-Facility-Bank_C rdf:type Facilities:Facility.
+    AMIF:AMIF-Facility-Bank_D rdf:type Facilities:Facility.
+
+    #facility of the bank
+    AMIF:AMIF-AccountProvider-Bank_C ProductsAndServices:provisions AMIF:AMIF-Facility-Bank_C.
+    AMIF:AMIF-AccountProvider-Bank_D ProductsAndServices:provisions AMIF:AMIF-Facility-Bank_D.
+
+    #definition of site for the facilities
+    AMIF:AMIF-Site-El_Valle-Anguila rdf:type Facilities:Site.
+    AMIF:AMIF-Site-Honiara-Solomon_Islands rdf:type Facilities:Site.
+
+    #where is situated the facility of the bank
+    AMIF:AMIF-Facility-Bank_C Facilities:isSituatedAt AMIF:AMIF-Site-El_Valle-Anguila.
+    AMIF:AMIF-Facility-Bank_D Facilities:isSituatedAt AMIF:AMIF-Site-Honiara-Solomon_Islands.
+
+    #where is located the site
+    AMIF:AMIF-Site-El_Valle-Anguila Locations:isLocatedAt AMIF:AMIF-Anguila.
+    AMIF:AMIF-Site-Honiara-Solomon_Islands Locations:isLocatedAt AMIF:AMIF-Solomon_Islands.
+
+    # definition of transaction record
+    AMIF:AMIF-CQ1_4-TransactionRecord_01-Client_04 rdf:type ClientsAndAccounts:TransactionRecord.
+    AMIF:AMIF-CQ1_4-TransactionRecord_02-Client_04 rdf:type ClientsAndAccounts:TransactionRecord.
+    AMIF:AMIF-CQ1_4-TransactionRecord_03-Client_04 rdf:type ClientsAndAccounts:TransactionRecord.
+
+    # transaction record for each account
+    AMIF:AMIF-CQ1_4-Account_01-Client_04 Documents:hasRecord AMIF:AMIF-CQ1_4-TransactionRecord_01-Client_04.
+    AMIF:AMIF-CQ1_4-Account_02-Client_04 Documents:hasRecord AMIF:AMIF-CQ1_4-TransactionRecord_02-Client_04.
+    AMIF:AMIF-CQ1_4-Account_03-Client_04 Documents:hasRecord AMIF:AMIF-CQ1_4-TransactionRecord_03-Client_04.
+
+    # association between client and accounts
+    AMIF:AMIF-CQ1_4-Account_01-Client_04 Relations:isHeldBy AMIF:AMIF-CQ1_4-AccountHolder-Client_04.
+    AMIF:AMIF-CQ1_4-Account_02-Client_04 Relations:isHeldBy AMIF:AMIF-CQ1_4-AccountHolder-Client_04.
+    AMIF:AMIF-CQ1_4-Account_03-Client_04 Relations:isHeldBy AMIF:AMIF-CQ1_4-AccountHolder-Client_04.
+
+    # inverse funtion of the isHeldBy
+    AMIF:AMIF-CQ1_4-AccountHolder-Client_04 Relations:holds AMIF:AMIF-CQ1_4-Account_01-Client_04.
+    AMIF:AMIF-CQ1_4-AccountHolder-Client_04 Relations:holds AMIF:AMIF-CQ1_4-Account_02-Client_04.
+    AMIF:AMIF-CQ1_4-AccountHolder-Client_04 Relations:holds AMIF:AMIF-CQ1_4-Account_03-Client_04.
+
+    # definition cutoff period
+    AMIF:AMIF-CQ1_4-CutOffPeriodSum_01-Client_04 rdf:type AMIF:CutOffPeriodSum.
+    AMIF:AMIF-CQ1_4-CutOffPeriodSum_02-Client_04 rdf:type AMIF:CutOffPeriodSum.
+    AMIF:AMIF-CQ1_4-CutOffPeriodSum_03-Client_04 rdf:type AMIF:CutOffPeriodSum.
+
+    # cutoff period for transaction record
+    AMIF:AMIF-CQ1_4-TransactionRecord_01-Client_04 AMIF:hasCutOffPeriodSum AMIF:AMIF-CQ1_4-CutOffPeriodSum_01-Client_04.
+    AMIF:AMIF-CQ1_4-TransactionRecord_02-Client_04 AMIF:hasCutOffPeriodSum AMIF:AMIF-CQ1_4-CutOffPeriodSum_02-Client_04.
+    AMIF:AMIF-CQ1_4-TransactionRecord_03-Client_04 AMIF:hasCutOffPeriodSum AMIF:AMIF-CQ1_4-CutOffPeriodSum_03-Client_04.
+
+
+    #individual transactions for each account
+    #individual transaction for AMIF-CQ1_4-Account_01-Client_04
+    #definition of the individual transactions
+    AMIF:AMIF-CQ1_4-IndTra_01-TR01-Cdt-Client_04 rdf:type ClientsAndAccounts:IndividualTransaction.
+    AMIF:AMIF-CQ1_4-IndTra_02-TR01-Cdt-Client_04 rdf:type ClientsAndAccounts:IndividualTransaction.
+    AMIF:AMIF-CQ1_4-IndTra_03-TR01-Dbt-Client_04 rdf:type ClientsAndAccounts:IndividualTransaction.
+
+    #association to individual transaction with transaction record
+    AMIF:AMIF-CQ1_4-TransactionRecord_01-Client_04 RegistrationAuthorities:hasRegistryEntry AMIF:AMIF-CQ1_4-IndTra_01-TR01-Cdt-Client_04.
+    AMIF:AMIF-CQ1_4-TransactionRecord_01-Client_04 RegistrationAuthorities:hasRegistryEntry AMIF:AMIF-CQ1_4-IndTra_02-TR01-Cdt-Client_04.
+    AMIF:AMIF-CQ1_4-TransactionRecord_01-Client_04 RegistrationAuthorities:hasRegistryEntry AMIF:AMIF-CQ1_4-IndTra_03-TR01-Dbt-Client_04.
+
+    #definition of monetaryAmount for individual transaction
+    AMIF:AMIF-CQ1_4-MnAmt-IndTra_01-Client_04 rdf:type CurrencyAmount:MonetaryAmount.
+    AMIF:AMIF-CQ1_4-MnAmt-IndTra_02-Client_04 rdf:type CurrencyAmount:MonetaryAmount.
+    AMIF:AMIF-CQ1_4-MnAmt-IndTra_03-Client_04 rdf:type CurrencyAmount:MonetaryAmount.
+
+    #date time of the individual transaction
+    AMIF:AMIF-CQ1_4-IndTra_01-TR01-Cdt-Client_04 AMIF:hasTransactionDateTime "2021-05-01T00:00:00"^^xsd:dateTime.
+    AMIF:AMIF-CQ1_4-IndTra_02-TR01-Cdt-Client_04 AMIF:hasTransactionDateTime "2021-04-12T00:00:00"^^xsd:dateTime.
+    AMIF:AMIF-CQ1_4-IndTra_03-TR01-Dbt-Client_04 AMIF:hasTransactionDateTime "2021-04-22T00:00:00"^^xsd:dateTime.
+
+    #amount of the amount money
+    AMIF:AMIF-CQ1_4-MnAmt-IndTra_01-Client_04 CurrencyAmount:hasAmount "1000"^^xsd:decimal.
+    AMIF:AMIF-CQ1_4-MnAmt-IndTra_02-Client_04 CurrencyAmount:hasAmount "500"^^xsd:decimal.
+    AMIF:AMIF-CQ1_4-MnAmt-IndTra_03-Client_04 CurrencyAmount:hasAmount "1500"^^xsd:decimal.
+
+    #association of individual transaction with monetary amount
+    AMIF:AMIF-CQ1_4-IndTra_01-TR01-Cdt-Client_04 CurrencyAmount:hasMonetaryAmount AMIF:AMIF-CQ1_4-MnAmt-IndTra_01-Client_04.
+    AMIF:AMIF-CQ1_4-IndTra_02-TR01-Cdt-Client_04 CurrencyAmount:hasMonetaryAmount AMIF:AMIF-CQ1_4-MnAmt-IndTra_02-Client_04.
+    AMIF:AMIF-CQ1_4-IndTra_03-TR01-Cdt-Client_04 CurrencyAmount:hasMonetaryAmount AMIF:AMIF-CQ1_4-MnAmt-IndTra_03-Client_04.
+
+    #definition of type of transaction
+    AMIF:AMIF-CQ1_4-IndTra_01-TR01-Cdt-Client_04 CountryRepresentation:isClassifiedBy AMIF:AMIF-Credit-Transaction.
+    AMIF:AMIF-CQ1_4-IndTra_02-TR01-Cdt-Client_04 CountryRepresentation:isClassifiedBy AMIF:AMIF-Credit-Transaction.
+    AMIF:AMIF-CQ1_4-IndTra_03-TR01-Dbt-Client_04 CountryRepresentation:isClassifiedBy AMIF:AMIF-Debit-Transaction.
+
+    #definition of transaction type
+    AMIF:AMIF-CQ1_4-IndTra_01-TR01-Cdt-Client_04 AMIF:isTransactionType AMIF:AMIF-PM-Cash.
+    AMIF:AMIF-CQ1_4-IndTra_02-TR01-Cdt-Client_04 AMIF:isTransactionType AMIF:AMIF-PM-Cash.
+    AMIF:AMIF-CQ1_4-IndTra_03-TR01-Dbt-Client_04 AMIF:isTransactionType AMIF:AMIF-PM-Wire.
+
+
+    #individual transaction for AMIF-CQ1_4-Account_02-Client_04
+    #definition of the individual transactions
+    AMIF:AMIF-CQ1_4-IndTra_01-TR02-Cdt-Client_04 rdf:type ClientsAndAccounts:IndividualTransaction.
+    AMIF:AMIF-CQ1_4-IndTra_02-TR02-Cdt-Client_04 rdf:type ClientsAndAccounts:IndividualTransaction.
+    AMIF:AMIF-CQ1_4-IndTra_03-TR02-Dbt-Client_04 rdf:type ClientsAndAccounts:IndividualTransaction.
+    AMIF:AMIF-CQ1_4-IndTra_04-TR02-Dbt-Client_04 rdf:type ClientsAndAccounts:IndividualTransaction.
+
+    #association to individual transaction with transaction record
+    AMIF:AMIF-CQ1_4-TransactionRecord_02-Client_04 RegistrationAuthorities:hasRegistryEntry AMIF:AMIF-CQ1_4-IndTra_01-TR02-Cdt-Client_04.
+    AMIF:AMIF-CQ1_4-TransactionRecord_02-Client_04 RegistrationAuthorities:hasRegistryEntry AMIF:AMIF-CQ1_4-IndTra_02-TR02-Cdt-Client_04.
+    AMIF:AMIF-CQ1_4-TransactionRecord_02-Client_04 RegistrationAuthorities:hasRegistryEntry AMIF:AMIF-CQ1_4-IndTra_03-TR02-Dbt-Client_04.
+    AMIF:AMIF-CQ1_4-TransactionRecord_02-Client_04 RegistrationAuthorities:hasRegistryEntry AMIF:AMIF-CQ1_4-IndTra_04-TR02-Dbt-Client_04.
+
+    #definition of monetaryAmount for individual transaction
+    AMIF:AMIF-CQ1_4-MnAmt-IndTra_01-Client_04 rdf:type CurrencyAmount:MonetaryAmount.
+    AMIF:AMIF-CQ1_4-MnAmt-IndTra_02-Client_04 rdf:type CurrencyAmount:MonetaryAmount.
+    AMIF:AMIF-CQ1_4-MnAmt-IndTra_03-Client_04 rdf:type CurrencyAmount:MonetaryAmount.
+    AMIF:AMIF-CQ1_4-MnAmt-IndTra_04-Client_04 rdf:type CurrencyAmount:MonetaryAmount.
+
+    #date time of the individual transaction
+    AMIF:AMIF-CQ1_4-IndTra_01-TR02-Cdt-Client_04 AMIF:hasTransactionDateTime "2021-05-01T00:00:00"^^xsd:dateTime.
+    AMIF:AMIF-CQ1_4-IndTra_02-TR02-Cdt-Client_04 AMIF:hasTransactionDateTime "2021-04-12T00:00:00"^^xsd:dateTime.
+    AMIF:AMIF-CQ1_4-IndTra_03-TR02-Dbt-Client_04 AMIF:hasTransactionDateTime "2021-04-22T00:00:00"^^xsd:dateTime.
+    AMIF:AMIF-CQ1_4-IndTra_04-TR02-Dbt-Client_04 AMIF:hasTransactionDateTime "2021-05-04T00:00:00"^^xsd:dateTime.
+
+    #amount of the amount money
+    AMIF:AMIF-CQ1_4-MnAmt-IndTra_01-Client_04 CurrencyAmount:hasAmount "1000"^^xsd:decimal.
+    AMIF:AMIF-CQ1_4-MnAmt-IndTra_02-Client_04 CurrencyAmount:hasAmount "100"^^xsd:decimal.
+    AMIF:AMIF-CQ1_4-MnAmt-IndTra_03-Client_04 CurrencyAmount:hasAmount "500"^^xsd:decimal.
+    AMIF:AMIF-CQ1_4-MnAmt-IndTra_04-Client_04 CurrencyAmount:hasAmount "1500"^^xsd:decimal.
+
+    #association of individual transaction with monetary amount
+    AMIF:AMIF-CQ1_4-IndTra_01-TR02-Cdt-Client_04 CurrencyAmount:hasMonetaryAmount AMIF:AMIF-CQ1_4-MnAmt-IndTra_01-Client_04.
+    AMIF:AMIF-CQ1_4-IndTra_02-TR02-Cdt-Client_04 CurrencyAmount:hasMonetaryAmount AMIF:AMIF-CQ1_4-MnAmt-IndTra_02-Client_04.
+    AMIF:AMIF-CQ1_4-IndTra_03-TR02-Dbt-Client_04 CurrencyAmount:hasMonetaryAmount AMIF:AMIF-CQ1_4-MnAmt-IndTra_03-Client_04.
+    AMIF:AMIF-CQ1_4-IndTra_04-TR02-Dbt-Client_04 CurrencyAmount:hasMonetaryAmount AMIF:AMIF-CQ1_4-MnAmt-IndTra_04-Client_04.
+
+    #definition of type of transaction
+    AMIF:AMIF-CQ1_4-IndTra_01-TR02-Cdt-Client_04 CountryRepresentation:isClassifiedBy AMIF:AMIF-Credit-Transaction.
+    AMIF:AMIF-CQ1_4-IndTra_02-TR02-Cdt-Client_04 CountryRepresentation:isClassifiedBy AMIF:AMIF-Credit-Transaction.
+    AMIF:AMIF-CQ1_4-IndTra_03-TR02-Dbt-Client_04 CountryRepresentation:isClassifiedBy AMIF:AMIF-Debit-Transaction.
+    AMIF:AMIF-CQ1_4-IndTra_04-TR02-Dbt-Client_04 CountryRepresentation:isClassifiedBy AMIF:AMIF-Debit-Transaction.
+
+    #definition of transaction type
+    AMIF:AMIF-CQ1_4-IndTra_01-TR02-Cdt-Client_04 AMIF:isTransactionType AMIF:AMIF-PM-Cash.
+    AMIF:AMIF-CQ1_4-IndTra_02-TR02-Cdt-Client_04 AMIF:isTransactionType AMIF:AMIF-PM-Cash.
+    AMIF:AMIF-CQ1_4-IndTra_03-TR02-Dbt-Client_04 AMIF:isTransactionType AMIF:AMIF-PM-Wire.
+    AMIF:AMIF-CQ1_4-IndTra_04-TR02-Dbt-Client_04 AMIF:isTransactionType AMIF:AMIF-PM-Wire.
+
+
+    #individual transaction for AMIF-CQ1_4-Account_03-Client_04
+    #definition of the individual transactions
+    AMIF:AMIF-CQ1_4-IndTra_01-TR03-Cdt-Client_04 rdf:type ClientsAndAccounts:IndividualTransaction.
+    AMIF:AMIF-CQ1_4-IndTra_02-TR03-Cdt-Client_04 rdf:type ClientsAndAccounts:IndividualTransaction.
+    AMIF:AMIF-CQ1_4-IndTra_03-TR03-Dbt-Client_04 rdf:type ClientsAndAccounts:IndividualTransaction.
+    AMIF:AMIF-CQ1_4-IndTra_04-TR03-Dbt-Client_04 rdf:type ClientsAndAccounts:IndividualTransaction.
+    AMIF:AMIF-CQ1_4-IndTra_05-TR03-Dbt-Client_04 rdf:type ClientsAndAccounts:IndividualTransaction.
+
+    #association to individual transaction with transaction record
+    AMIF:AMIF-CQ1_4-TransactionRecord_03-Client_04 RegistrationAuthorities:hasRegistryEntry AMIF:AMIF-CQ1_4-IndTra_01-TR03-Cdt-Client_04.
+    AMIF:AMIF-CQ1_4-TransactionRecord_03-Client_04 RegistrationAuthorities:hasRegistryEntry AMIF:AMIF-CQ1_4-IndTra_02-TR03-Cdt-Client_04.
+    AMIF:AMIF-CQ1_4-TransactionRecord_03-Client_04 RegistrationAuthorities:hasRegistryEntry AMIF:AMIF-CQ1_4-IndTra_03-TR03-Dbt-Client_04.
+    AMIF:AMIF-CQ1_4-TransactionRecord_03-Client_04 RegistrationAuthorities:hasRegistryEntry AMIF:AMIF-CQ1_4-IndTra_04-TR03-Dbt-Client_04.
+    AMIF:AMIF-CQ1_4-TransactionRecord_03-Client_04 RegistrationAuthorities:hasRegistryEntry AMIF:AMIF-CQ1_4-IndTra_05-TR03-Dbt-Client_04.
+
+    #definition of monetaryAmount for individual transaction
+    AMIF:AMIF-CQ1_4-MnAmt-IndTra_01-Client_04 rdf:type CurrencyAmount:MonetaryAmount.
+    AMIF:AMIF-CQ1_4-MnAmt-IndTra_02-Client_04 rdf:type CurrencyAmount:MonetaryAmount.
+    AMIF:AMIF-CQ1_4-MnAmt-IndTra_03-Client_04 rdf:type CurrencyAmount:MonetaryAmount.
+    AMIF:AMIF-CQ1_4-MnAmt-IndTra_04-Client_04 rdf:type CurrencyAmount:MonetaryAmount.
+    AMIF:AMIF-CQ1_4-MnAmt-IndTra_05-Client_04 rdf:type CurrencyAmount:MonetaryAmount.
+
+    #date time of the individual transaction
+    AMIF:AMIF-CQ1_4-IndTra_01-TR03-Cdt-Client_04 AMIF:hasTransactionDateTime "2021-05-03T00:00:00"^^xsd:dateTime.
+    AMIF:AMIF-CQ1_4-IndTra_02-TR03-Cdt-Client_04 AMIF:hasTransactionDateTime "2021-04-11T00:00:00"^^xsd:dateTime.
+    AMIF:AMIF-CQ1_4-IndTra_03-TR03-Dbt-Client_04 AMIF:hasTransactionDateTime "2021-04-21T00:00:00"^^xsd:dateTime.
+    AMIF:AMIF-CQ1_4-IndTra_04-TR03-Dbt-Client_04 AMIF:hasTransactionDateTime "2021-04-14T00:00:00"^^xsd:dateTime.
+    AMIF:AMIF-CQ1_4-IndTra_05-TR03-Dbt-Client_04 AMIF:hasTransactionDateTime "2021-04-10T00:00:00"^^xsd:dateTime.
+
+    #amount of the amount money
+    AMIF:AMIF-CQ1_4-MnAmt-IndTra_01-Client_04 CurrencyAmount:hasAmount "1000"^^xsd:decimal.
+    AMIF:AMIF-CQ1_4-MnAmt-IndTra_02-Client_04 CurrencyAmount:hasAmount "100"^^xsd:decimal.
+    AMIF:AMIF-CQ1_4-MnAmt-IndTra_03-Client_04 CurrencyAmount:hasAmount "500"^^xsd:decimal.
+    AMIF:AMIF-CQ1_4-MnAmt-IndTra_04-Client_04 CurrencyAmount:hasAmount "1500"^^xsd:decimal.
+    AMIF:AMIF-CQ1_4-MnAmt-IndTra_05-Client_04 CurrencyAmount:hasAmount "11500"^^xsd:decimal.
+
+    #association of individual transaction with monetary amount
+    AMIF:AMIF-CQ1_4-IndTra_01-TR03-Cdt-Client_04 CurrencyAmount:hasMonetaryAmount AMIF:AMIF-CQ1_4-MnAmt-IndTra_01-Client_04.
+    AMIF:AMIF-CQ1_4-IndTra_02-TR03-Cdt-Client_04 CurrencyAmount:hasMonetaryAmount AMIF:AMIF-CQ1_4-MnAmt-IndTra_02-Client_04.
+    AMIF:AMIF-CQ1_4-IndTra_03-TR03-Dbt-Client_04 CurrencyAmount:hasMonetaryAmount AMIF:AMIF-CQ1_4-MnAmt-IndTra_03-Client_04.
+    AMIF:AMIF-CQ1_4-IndTra_04-TR03-Dbt-Client_04 CurrencyAmount:hasMonetaryAmount AMIF:AMIF-CQ1_4-MnAmt-IndTra_04-Client_04.
+    AMIF:AMIF-CQ1_4-IndTra_05-TR03-Dbt-Client_04 CurrencyAmount:hasMonetaryAmount AMIF:AMIF-CQ1_4-MnAmt-IndTra_05-Client_04.
+
+    #definition of type of transaction
+    AMIF:AMIF-CQ1_4-IndTra_01-TR03-Cdt-Client_04 CountryRepresentation:isClassifiedBy AMIF:AMIF-Credit-Transaction.
+    AMIF:AMIF-CQ1_4-IndTra_02-TR03-Cdt-Client_04 CountryRepresentation:isClassifiedBy AMIF:AMIF-Credit-Transaction.
+    AMIF:AMIF-CQ1_4-IndTra_03-TR03-Dbt-Client_04 CountryRepresentation:isClassifiedBy AMIF:AMIF-Debit-Transaction.
+    AMIF:AMIF-CQ1_4-IndTra_04-TR03-Dbt-Client_04 CountryRepresentation:isClassifiedBy AMIF:AMIF-Debit-Transaction.
+    AMIF:AMIF-CQ1_4-IndTra_05-TR03-Dbt-Client_04 CountryRepresentation:isClassifiedBy AMIF:AMIF-Debit-Transaction.
+
+    #definition of transaction type
+    AMIF:AMIF-CQ1_4-IndTra_01-TR03-Cdt-Client_04 AMIF:isTransactionType AMIF:AMIF-PM-Cash.
+    AMIF:AMIF-CQ1_4-IndTra_02-TR03-Cdt-Client_04 AMIF:isTransactionType AMIF:AMIF-PM-Cash.
+    AMIF:AMIF-CQ1_4-IndTra_03-TR03-Dbt-Client_04 AMIF:isTransactionType AMIF:AMIF-PM-Wire.
+    AMIF:AMIF-CQ1_4-IndTra_04-TR03-Dbt-Client_04 AMIF:isTransactionType AMIF:AMIF-PM-Wire.
+    AMIF:AMIF-CQ1_4-IndTra_05-TR03-Dbt-Client_04 AMIF:isTransactionType AMIF:AMIF-PM-Wire.
+}

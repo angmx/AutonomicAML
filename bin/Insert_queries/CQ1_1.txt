@@ -1,0 +1,79 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX AMIF: <http://www.semanticweb.org/ontologies/2020/AMIF-Banking#>
+PREFIX ClientsAndAccounts: <https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/ClientsAndAccounts/>
+PREFIX Documents: <https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Documents/>
+PREFIX RegistrationAuthorities: <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/RegistrationAuthorities/>
+PREFIX CountryRepresentation: <https://www.omg.org/spec/LCC/Countries/CountryRepresentation/>
+PREFIX CurrencyAmount: <https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/>
+PREFIX Relations: <https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/>
+PREFIX ProductsAndServices: <https://spec.edmcouncil.org/fibo/ontology/FND/ProductsAndServices/ProductsAndServices/>
+PREFIX Facilities: <https://spec.edmcouncil.org/fibo/ontology/FND/Places/Facilities/>
+PREFIX Locations: <https://spec.edmcouncil.org/fibo/ontology/FND/Places/Locations/>
+
+INSERT DATA{
+	AMIF:AMIF-CQ1_1-AccountHolder-Client_01 rdf:type ClientsAndAccounts:AccountHolder.
+	AMIF:AMIF-CQ1_1-AccountHolder-Client_01 AMIF:hasNameOfAccountHolder "Client 01 CQ1.1"^^xsd:string.
+
+    # various account of same customer
+    AMIF:AMIF-CQ1_1-Account_01-Client_01 rdf:type ClientsAndAccounts:Account.
+  	AMIF:AMIF-CQ1_1-Account_02-Client_01 rdf:type ClientsAndAccounts:Account.
+  	AMIF:AMIF-CQ1_1-Account_03-Client_01 rdf:type ClientsAndAccounts:Account.
+  	AMIF:AMIF-CQ1_1-Account_04-Client_01 rdf:type ClientsAndAccounts:Account.
+  	AMIF:AMIF-CQ1_1-Account_05-Client_01 rdf:type ClientsAndAccounts:Account.
+
+  	# definition of banks
+    AMIF:AMIF-BR-AccountProvider-Bank_A rdf:type ClientsAndAccounts:AccountProvider.
+    AMIF:AMIF-BR-AccountProvider-Bank_B rdf:type ClientsAndAccounts:AccountProvider.
+
+    # relation between account to banks
+    AMIF:AMIF-CQ1_1-Account_01-Client_01 Relations:isProvidedBy AMIF:AMIF-BR-AccountProvider-Bank_A.
+    AMIF:AMIF-CQ1_1-Account_02-Client_01 Relations:isProvidedBy AMIF:AMIF-BR-AccountProvider-Bank_A.
+    AMIF:AMIF-CQ1_1-Account_03-Client_01 Relations:isProvidedBy AMIF:AMIF-BR-AccountProvider-Bank_A.
+    AMIF:AMIF-CQ1_1-Account_04-Client_01 Relations:isProvidedBy AMIF:AMIF-BR-AccountProvider-Bank_B.
+    AMIF:AMIF-CQ1_1-Account_05-Client_01 Relations:isProvidedBy AMIF:AMIF-BR-AccountProvider-Bank_B.
+
+    # definition of transaction record
+    AMIF:AMIF-CQ1_1-TransactionRecord_01-Client_01 rdf:type ClientsAndAccounts:TransactionRecord.
+    AMIF:AMIF-CQ1_1-TransactionRecord_02-Client_01 rdf:type ClientsAndAccounts:TransactionRecord.
+    AMIF:AMIF-CQ1_1-TransactionRecord_03-Client_01 rdf:type ClientsAndAccounts:TransactionRecord.
+    AMIF:AMIF-CQ1_1-TransactionRecord_04-Client_01 rdf:type ClientsAndAccounts:TransactionRecord.
+    AMIF:AMIF-CQ1_1-TransactionRecord_05-Client_01 rdf:type ClientsAndAccounts:TransactionRecord.
+
+    # transaction record for each account
+    AMIF:AMIF-CQ1_1-Account_01-Client_01 Documents:hasRecord AMIF:AMIF-CQ1_1-TransactionRecord_01-Client_01.
+    AMIF:AMIF-CQ1_1-Account_02-Client_01 Documents:hasRecord AMIF:AMIF-CQ1_1-TransactionRecord_02-Client_01.
+    AMIF:AMIF-CQ1_1-Account_03-Client_01 Documents:hasRecord AMIF:AMIF-CQ1_1-TransactionRecord_03-Client_01.
+    AMIF:AMIF-CQ1_1-Account_04-Client_01 Documents:hasRecord AMIF:AMIF-CQ1_1-TransactionRecord_04-Client_01.
+    AMIF:AMIF-CQ1_1-Account_05-Client_01 Documents:hasRecord AMIF:AMIF-CQ1_1-TransactionRecord_05-Client_01.
+
+    # association between client and accounts
+    AMIF:AMIF-CQ1_1-Account_01-Client_01 Relations:isHeldBy AMIF:AMIF-CQ1_1-AccountHolder-Client_01.
+    AMIF:AMIF-CQ1_1-Account_02-Client_01 Relations:isHeldBy AMIF:AMIF-CQ1_1-AccountHolder-Client_01.
+    AMIF:AMIF-CQ1_1-Account_03-Client_01 Relations:isHeldBy AMIF:AMIF-CQ1_1-AccountHolder-Client_01.
+    AMIF:AMIF-CQ1_1-Account_04-Client_01 Relations:isHeldBy AMIF:AMIF-CQ1_1-AccountHolder-Client_01.
+    AMIF:AMIF-CQ1_1-Account_05-Client_01 Relations:isHeldBy AMIF:AMIF-CQ1_1-AccountHolder-Client_01.
+
+    # inverse funtion of the isHeldBy
+    AMIF:AMIF-CQ1_1-AccountHolder-Client_01 Relations:holds AMIF:AMIF-CQ1_1-Account_01-Client_01.
+    AMIF:AMIF-CQ1_1-AccountHolder-Client_01 Relations:holds AMIF:AMIF-CQ1_1-Account_02-Client_01.
+    AMIF:AMIF-CQ1_1-AccountHolder-Client_01 Relations:holds AMIF:AMIF-CQ1_1-Account_03-Client_01.
+    AMIF:AMIF-CQ1_1-AccountHolder-Client_01 Relations:holds AMIF:AMIF-CQ1_1-Account_04-Client_01.
+    AMIF:AMIF-CQ1_1-AccountHolder-Client_01 Relations:holds AMIF:AMIF-CQ1_1-Account_05-Client_01.
+
+    # definition cutoff period
+    AMIF:AMIF-CQ1_1-CutOffPeriodSum_01-Client_01 rdf:type AMIF:CutOffPeriodSum.
+    AMIF:AMIF-CQ1_1-CutOffPeriodSum_02-Client_01 rdf:type AMIF:CutOffPeriodSum.
+    AMIF:AMIF-CQ1_1-CutOffPeriodSum_03-Client_01 rdf:type AMIF:CutOffPeriodSum.
+    AMIF:AMIF-CQ1_1-CutOffPeriodSum_04-Client_01 rdf:type AMIF:CutOffPeriodSum.
+    AMIF:AMIF-CQ1_1-CutOffPeriodSum_05-Client_01 rdf:type AMIF:CutOffPeriodSum.
+
+    # cutoff period for transaction record
+    AMIF:AMIF-CQ1_1-TransactionRecord_01-Client_01 AMIF:hasCutOffPeriodSum AMIF:AMIF-CQ1_1-CutOffPeriodSum_01-Client_01.
+    AMIF:AMIF-CQ1_1-TransactionRecord_02-Client_01 AMIF:hasCutOffPeriodSum AMIF:AMIF-CQ1_1-CutOffPeriodSum_02-Client_01.
+    AMIF:AMIF-CQ1_1-TransactionRecord_03-Client_01 AMIF:hasCutOffPeriodSum AMIF:AMIF-CQ1_1-CutOffPeriodSum_03-Client_01.
+    AMIF:AMIF-CQ1_1-TransactionRecord_04-Client_01 AMIF:hasCutOffPeriodSum AMIF:AMIF-CQ1_1-CutOffPeriodSum_04-Client_01.
+    AMIF:AMIF-CQ1_1-TransactionRecord_05-Client_01 AMIF:hasCutOffPeriodSum AMIF:AMIF-CQ1_1-CutOffPeriodSum_05-Client_01.
+}

@@ -305,27 +305,29 @@ public class DAO_KB_CERPRO {
 		return (HashMap<String, Double>) account_sum;
 	}
 	
-	public void getFileNames(String dir){
+	public ArrayList<String> getFileNames(String dir){
 		String sCarpAct = System.getProperty("user.dir");
 		File carpeta = new File(sCarpAct+"/"+dir);
 		
-		System.out.println("********"+carpeta.getName()+"*************");
 		String[] listado = carpeta.list();
 		ArrayList<String> nombresArchivos = new ArrayList<String>(Arrays.asList(listado));
 		nombresArchivos.remove("desktop.ini");
 		
+		return nombresArchivos;
+	}
+	
+	
+	/**
+	 * Metodo que para insertar insancias, busca y lee un archivo en disco e inserta la instancia
+	 * @param file archivo en disco duro que contiene el query de insercion
+	 */
+	public void insertInstance(String file) {
+		is = getClass().getResourceAsStream(file);
+		ir = new InputStreamReader(is);
+		String queryString = readFile(ir);
 		
-		/*if (nombresArchivos == null || nombresArchivos.size() == 0) {
-		    System.out.println("No hay elementos dentro de la carpeta actual");
-		    return;
-		}
-		else {
-		    for (int i=0; i< nombresArchivos.size(); i++) {
-		        System.out.println(nombresArchivos.get(i));
-		    }
-		}
-		System.out.println("***********************************");*/
-		return;
+		//System.out.println(queryString);
+		cnx.update(queryString);
 	}
 
 	public String readFile(InputStreamReader fileName) {

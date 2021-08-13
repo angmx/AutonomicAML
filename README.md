@@ -40,3 +40,5 @@ Regulatory Compliance Financial Fraud Detection
 SPARQL end point:          |
 ---------------------------|
 << here goes the ENPOINT >>|
+
+CQs to be populated (Format: CQ<<ID>>, where id is the CQ number, eg. CQ8_2. The query's file name MUST be the name indicated here):

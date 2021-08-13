@@ -1,7 +1,11 @@
 package autonomicAML.dataLayer;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -315,6 +319,36 @@ public class DAO_KB_CERPRO {
 		
 		return nombresArchivos;
 	}
+	public ArrayList<String> getFileNames(){
+		String file = System.getProperty("user.dir") + "/../CQ-Insert.txt";
+		
+		StringBuilder sb = new StringBuilder();//construye una cadena que posteriormente se formateara
+		try {
+            FileReader fr = new FileReader(file);//abre el archivo
+            BufferedReader br = new BufferedReader(fr);//lo mete en un buffer
+            String line = null;
+            try {
+                line = br.readLine();//lee el archivo
+            
+	            while (line != null) {
+	                sb.append(line);//agrega el texto de CQ-Insert.txt
+	                sb.append("\n");//agrega un salto de linea al final del documento
+	                    line = br.readLine();
+	                
+	            }//end: while
+	            br.close();
+            } catch (IOException ex) {
+                logger.warn("It was no possible to read the line...");
+            }
+        } catch (FileNotFoundException e) {
+        	logger.warn("It was no possible to read the file...");
+        }//end: try-catch//end: try-catch
+		
+		String[] listado = sb.toString().split("\n");
+		ArrayList<String> nombresArchivos = new ArrayList<String>(Arrays.asList(listado));
+		
+		return nombresArchivos;
+	}
 	
 	
 	/**
@@ -322,12 +356,33 @@ public class DAO_KB_CERPRO {
 	 * @param file archivo en disco duro que contiene el query de insercion
 	 */
 	public void insertInstance(String file) {
-		is = getClass().getResourceAsStream(file);
-		ir = new InputStreamReader(is);
-		String queryString = readFile(ir);
+		String afile = System.getProperty("user.dir") + "/../Insert_queries/"+file;
 		
-		//System.out.println(queryString);
-		cnx.update(queryString);
+		//System.out.println(afile);
+		StringBuilder sb = new StringBuilder();//construye una cadena que posteriormente se formateara
+		try {
+            FileReader fr = new FileReader(afile);//abre el archivo
+            BufferedReader br = new BufferedReader(fr);//lo mete en un buffer
+            String line = null;
+            try {
+                line = br.readLine();//lee el archivo
+            
+	            while (line != null) {
+	                sb.append(line);//agrega el texto de autonomicSystem.txt
+	                sb.append("\n");//agrega un salto de linea al final del documento
+	                    line = br.readLine();
+	                
+	            }//end: while
+	            br.close();
+            } catch (IOException ex) {
+                logger.warn("It was no possible to read the line...");
+            }
+        } catch (FileNotFoundException e) {
+        	logger.warn("It was no possible to read the file...");
+        }//end: try-catch//end: try-catch
+		
+		System.out.println("---------------"+sb.toString());
+		update(sb.toString());
 	}
 
 	public String readFile(InputStreamReader fileName) {

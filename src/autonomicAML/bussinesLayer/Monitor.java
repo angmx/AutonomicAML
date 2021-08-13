@@ -136,8 +136,13 @@ public class Monitor {
 		 */
 		public void insertInstance() {
 			//leemos de la carpeta donde se encuentran los queries para obtener los nombres de los archivos
-			ArrayList<String> nomArch = daoKB.getFileNames("src/Insert_queries");
+			//ArrayList<String> nomArch = daoKB.getFileNames("../Insert_queries");
+			ArrayList<String> nomArch = daoKB.getFileNames();
 			
+			for(int i=0;i<nomArch.size(); i++) {
+				System.out.println(nomArch.get(i));
+				
+			}
 			//iteramos cada nombre de archivo para insertarlo
 			if (nomArch == null || nomArch.size() == 0) {
 			    System.out.println("No exist file for the insertion");
@@ -146,7 +151,7 @@ public class Monitor {
 			else {
 			    for (int i=0; i< nomArch.size(); i++) {
 			        //System.out.println("/src/Insert_queries/"+nomArch.get(i));
-			        daoKB.insertInstance("/Insert_queries/"+nomArch.get(i));
+			        daoKB.insertInstance(nomArch.get(i));
 			    }
 			}
 		}

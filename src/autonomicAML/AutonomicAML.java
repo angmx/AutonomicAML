@@ -50,9 +50,9 @@ public class AutonomicAML {
     	monitor.insertInstance();
         //monitor.getAccounts(accountList);//obtienen las cuentas
     	System.out.println("AutonomicAML Begins");
-        monitor.setInactiveAndDormantAccount();
+        /**monitor.setInactiveAndDormantAccount();
         monitor.consolidateCutOffPeriodTransaction();
-        monitor.consolidationProcessIdentification();
+        monitor.consolidationProcessIdentification();*/
     	//monitor.consolidateChequeTransaction();
         
         System.out.println("Inference rules execution begins");
